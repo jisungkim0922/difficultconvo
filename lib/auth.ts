@@ -1,0 +1,13 @@
+import { createClientServer } from './supabase'
+
+export async function getSessionProfile() {
+  const supabase = createClientServer()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return null
+  const { data: profile } = await supabase.from('profiles').select('*').eq('auth_id', user.id).maybeSingle()
+  return { user, profile }
+}
+
+export function requireRole(profile: any, roles: string[]) {
+  return profile && roles.includes(profile.role)
+}
