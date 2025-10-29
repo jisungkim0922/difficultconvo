@@ -1,6 +1,6 @@
 'use client';
 import { useState } from "react";
-import { createClientBrowser } from "@/lib/supabase";
+import { createClientBrowser } from "@/lib/supabase-browser";
 
 export default function ModerationClient({ initial }: { initial: any[] }) {
   const [rows, setRows] = useState(initial);

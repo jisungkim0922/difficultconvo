@@ -1,4 +1,4 @@
-import { createClientServer } from "@/lib/supabase";
+import { createClientServer } from "@/lib/supabase-server";
 import SubmitLetter from "./submit-letter";
 
 export default async function ThreadPage({ params }: { params: { slug: string } }) {

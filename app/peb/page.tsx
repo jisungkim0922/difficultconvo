@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { createClientServer } from "@/lib/supabase";
+import { createClientServer } from "@/lib/supabase-server";
 
 export default async function PEBList() {
   const supabase = createClientServer();

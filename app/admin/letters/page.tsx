@@ -1,5 +1,5 @@
 import { getSessionProfile, requireRole } from "@/lib/auth";
-import { createClientServer } from "@/lib/supabase";
+import { createClientServer } from "@/lib/supabase-server";
 import ModerationClient from "./moderation-client";
 
 export default async function AdminLetters() {

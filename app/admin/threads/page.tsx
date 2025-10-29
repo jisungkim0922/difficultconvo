@@ -1,7 +1,7 @@
 import Link from "next/link";
 import ThreadForm from "./thread-form";
 import { getSessionProfile, requireRole } from "@/lib/auth";
-import { createClientServer } from "@/lib/supabase";
+import { createClientServer } from "@/lib/supabase-server";
 
 export default async function AdminThreads() {
   const session = await getSessionProfile();

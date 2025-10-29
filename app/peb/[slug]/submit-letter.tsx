@@ -1,7 +1,7 @@
 'use client';
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { createClientBrowser } from "@/lib/supabase";
+import { createClientBrowser } from "@/lib/supabase-browser";
 
 export default function SubmitLetter({ threadId }: { threadId: string }) {
   const { register, handleSubmit, reset } = useForm();
