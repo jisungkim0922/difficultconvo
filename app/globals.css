@@ -15,3 +15,83 @@ h1 { @apply text-2xl font-semibold; }
     @apply border-border; }
   body {
     @apply bg-background text-foreground; } }
+
+/* === Liquid Plasma Background === */
+.plasma-container {
+  position: absolute;
+  inset: -10vmax;
+  filter: blur(80px);
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+.plasma-blob {
+  position: absolute;
+  width: 70vmax;
+  height: 70vmax;
+  opacity: .65;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  animation-duration: 22s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+/* Blob colors (neon-ish but tasteful) */
+.plasma-1 {
+  left: -10vmax; top: -8vmax;
+  background: radial-gradient(35% 35% at 50% 50%, rgba(255,96,96,.85) 0%, rgba(255,96,96,0) 70%),
+              radial-gradient(45% 45% at 30% 70%, rgba(255,0,153,.5) 0%, rgba(255,0,153,0) 70%);
+  animation-name: moveA, morphA;
+}
+
+.plasma-2 {
+  right: -12vmax; top: -6vmax;
+  background: radial-gradient(40% 40% at 50% 50%, rgba(64,128,255,.85) 0%, rgba(64,128,255,0) 70%),
+              radial-gradient(45% 45% at 60% 30%, rgba(0,255,255,.45) 0%, rgba(0,255,255,0) 70%);
+  animation-name: moveB, morphB;
+  animation-delay: -3s;
+}
+
+.plasma-3 {
+  left: 10vmax; bottom: -14vmax;
+  background: radial-gradient(40% 40% at 50% 50%, rgba(255,204,64,.85) 0%, rgba(255,204,64,0) 70%),
+              radial-gradient(45% 45% at 70% 60%, rgba(255,64,64,.4) 0%, rgba(255,64,64,0) 70%);
+  animation-name: moveC, morphC;
+  animation-delay: -6s;
+}
+
+/* Motion paths */
+@keyframes moveA {
+  from { transform: translate3d(0,0,0) rotate(0deg) scale(1); }
+  to   { transform: translate3d(6vmax,-3vmax,0) rotate(20deg) scale(1.12); }
+}
+@keyframes moveB {
+  from { transform: translate3d(0,0,0) rotate(0deg) scale(1.05); }
+  to   { transform: translate3d(-8vmax,5vmax,0) rotate(-25deg) scale(0.95); }
+}
+@keyframes moveC {
+  from { transform: translate3d(0,0,0) rotate(0deg) scale(1); }
+  to   { transform: translate3d(-4vmax,-6vmax,0) rotate(15deg) scale(1.1); }
+}
+
+/* Gentle warping via border-radius */
+@keyframes morphA {
+  from { border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; }
+  to   { border-radius: 58% 42% 45% 55% / 40% 60% 40% 60%; }
+}
+@keyframes morphB {
+  from { border-radius: 55% 45% 48% 52% / 50% 50% 45% 55%; }
+  to   { border-radius: 42% 58% 55% 45% / 58% 42% 60% 40%; }
+}
+@keyframes morphC {
+  from { border-radius: 52% 48% 52% 48% / 48% 52% 48% 52%; }
+  to   { border-radius: 60% 40% 40% 60% / 45% 55% 55% 45%; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .plasma-blob { animation: none; opacity: .35; }
+  .plasma-container { filter: blur(50px); }
+}
