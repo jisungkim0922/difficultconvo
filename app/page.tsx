@@ -6,7 +6,15 @@ export default function Home() {
       {/* Hero */}
       <section className="relative mx-auto max-w-5xl px-5 py-16 sm:py-24">
         <h1 className="text-center sm:text-left text-4xl sm:text-6xl font-semibold tracking-tight">
-          <span className="bg-[linear-gradient(120deg,#111,_#111),linear-gradient(120deg,#06b6d4,#a855f7,#f43f5e)] [background-clip:text] [color:transparent] [background-size:100%_100%,200%_200%] [background-position:0_0,0%_50%] motion-safe:animate-[shine_10s_ease_infinite]">
+          <span
+            className={[
+              "bg-[linear-gradient(120deg,#111,_#111),linear-gradient(120deg,#06b6d4,#a855f7,#f43f5e)]",
+              "[background-clip:text] [color:transparent]",
+              "[background-size:100%_100%,200%_200%]",
+              "[background-position:0_0,0%_50%]",
+              "animate-shine" // uses global CSS we added
+            ].join(" ")}
+          >
             Difficult Conversations
           </span>
         </h1>
@@ -52,15 +60,6 @@ export default function Home() {
           </p>
         </div>
       </section>
-
-      {/* gradient headline animation keyframes */}
-      <style jsx global>{`
-        @keyframes shine {
-          0%   { background-position: 0% 50%, 0% 50%; }
-          50%  { background-position: 0% 50%, 100% 50%; }
-          100% { background-position: 0% 50%, 0% 50%; }
-        }
-      `}</style>
     </div>
   )
 }

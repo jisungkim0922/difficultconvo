@@ -95,3 +95,15 @@ h1 { @apply text-2xl font-semibold; }
   .plasma-blob { animation: none; opacity: .35; }
   .plasma-container { filter: blur(50px); }
 }
+
+/* ===== Animated gradient headline (global) ===== */
+@keyframes shine {
+  0%   { background-position: 0% 50%, 0% 50%; }
+  50%  { background-position: 0% 50%, 100% 50%; }
+  100% { background-position: 0% 50%, 0% 50%; }
+}
+
+/* Respect reduced-motion; only animate when allowed */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-shine { animation: shine 10s ease infinite; }
+}
