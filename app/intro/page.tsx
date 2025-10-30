@@ -1,48 +1,41 @@
 export const metadata = {
   title: "Introduction — Difficult Conversations",
-  description: "Slogan, mission, vision, and our north star.",
-}
+  description:
+    "Slogan, mission, and vision of Difficult Conversations — building a culture of healthy disagreement.",
+};
 
-export default function IntroPage() {
+export default function IntroductionPage() {
   return (
-    <section className="mx-auto max-w-4xl space-y-10">
-      <header className="space-y-2">
-        <h1 className="text-4xl font-semibold tracking-tight">Introduction</h1>
-        <p className="text-zinc-600 dark:text-zinc-400">
-          Why we exist and what we’re building—clearly and simply.
+    <main className="mx-auto max-w-5xl space-y-12 px-6 py-16">
+      <section className="rounded-3xl border border-black/5 bg-white/50 p-10 shadow-[0_1px_0_rgba(0,0,0,.06),0_20px_60px_-30px_rgba(0,0,0,.4)] backdrop-blur-2xl dark:border-white/10 dark:bg-black/30">
+        <h1 className="text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
+          Introduction
+        </h1>
+        <p className="mt-6 text-base md:text-lg text-muted-foreground">
+          <strong>Slogan:</strong> Changing the world, one difficult conversation at a time.
         </p>
-      </header>
-
-      <div className="rounded-2xl border border-black/10 bg-white/60 p-6 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-black/30">
-        <div className="space-y-6">
-          <p className="text-lg">
-            <span className="font-semibold">Slogan:</span>{" "}
-            Changing the world, one difficult conversation at a time.
+        <div className="mt-10 text-center">
+          <p className="text-sm uppercase tracking-wide text-muted-foreground">
+            Which “landmark” historical event happened without difficult conversations?
           </p>
-
-          <div className="rounded-xl border border-black/10 bg-white/70 p-5 text-center dark:border-white/10 dark:bg-black/40">
-            <p className="text-sm tracking-widest text-zinc-600 dark:text-zinc-400">
-              WHICH “LANDMARK” HISTORICAL EVENT HAPPENED WITHOUT DIFFICULT CONVERSATIONS?
-            </p>
-            <p className="mt-3 text-xl font-semibold">Every peace, every justice.</p>
-          </div>
-
-          <div className="space-y-4">
-            <p className="text-lg leading-8">
-              <span className="font-semibold">Mission Statement:</span>{" "}
-              To lead a culture of healthy disagreements; to help people build emotional maturity
-              and resilience; to depolarize local communities; to help learn negotiation and
-              de-escalation tactics; and to call world leaders to action on issues that have been
-              put off because they were considered “too polarizing”.
-            </p>
-
-            <p className="text-lg leading-8">
-              <span className="font-semibold">Vision Statement:</span>{" "}
-              To create a world where difficult conversations don’t feel so difficult.
-            </p>
-          </div>
+          <p className="mt-3 text-lg font-semibold tracking-wide">
+            Every peace, every justice.
+          </p>
         </div>
-      </div>
-    </section>
+        <p className="mt-10 text-sm md:text-base leading-relaxed text-foreground">
+          <strong>Mission Statement:</strong> To lead a culture of healthy disagreements; to help
+          people build emotional maturity and resilience; to depolarize local communities; to help
+          learn negotiation and de-escalation tactics; and to call world leaders to action on issues
+          that have been put off because they were considered “too polarizing.”
+        </p>
+        <p className="mt-6 text-sm md:text-base leading-relaxed text-foreground">
+          <strong>Vision Statement:</strong> To create a world where difficult conversations don’t
+          feel so difficult.
+        </p>
+      </section>
+      <section className="rounded-2xl border p-5 text-xs text-muted-foreground">
+        “Difficult Conversations” is a KYMN project. © {new Date().getFullYear()} KYMN.
+      </section>
+    </main>
   );
 }
