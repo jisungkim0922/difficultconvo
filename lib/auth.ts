@@ -8,7 +8,7 @@ export async function getSessionProfile() {
   const { data: profile } = await supabase
     .from('profiles')
     .select('*')
-    .eq('auth_id', user.id)
+    .eq("id", user.id)
     .maybeSingle();
 
   return { user, profile };
