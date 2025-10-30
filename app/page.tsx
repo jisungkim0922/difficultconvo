@@ -1,104 +1,86 @@
 // app/page.tsx
-import Link from "next/link";
-import clsx from "clsx";
-import type { ReactNode } from "react";
-
-/** Reusable, premium-feel button */
-function ButtonLink({
-  href,
-  children,
-  variant = "outline",
-}: {
-  href: string;
-  children: ReactNode;
-  variant?: "outline" | "solid" | "muted";
-}) {
-  const base =
-    "group relative block w-full rounded-xl px-5 py-3 text-center transition-all duration-300";
-
-  const outline =
-    // subtle glass card + animated gradient border on hover
-    "border border-black/15 bg-white/90 backdrop-blur-sm " +
-    "shadow-sm hover:shadow-md " +
-    "before:absolute before:inset-0 before:-z-10 before:rounded-xl " +
-    "before:opacity-0 before:transition-opacity before:duration-300 " +
-    "hover:before:opacity-100 " +
-    "before:bg-[linear-gradient(120deg,rgba(0,0,0,.12),rgba(0,0,0,.02))] " +
-    "hover:-translate-y-0.5 " +
-    "text-black";
-
-  const solid =
-    "bg-black text-white shadow-sm hover:shadow-md hover:-translate-y-0.5";
-
-  const muted =
-    "bg-zinc-200 text-zinc-900 hover:bg-zinc-300 shadow-sm hover:shadow-md";
-
-  const variantClasses =
-    variant === "solid" ? solid : variant === "muted" ? muted : outline;
-
-  return (
-    <Link href={href} className={clsx(base, variantClasses)}>
-      {/* shimmer underline on hover */}
-      <span className="relative">
-        {children}
-        <span className="absolute left-1/2 top-full block h-px w-0 -translate-x-1/2 bg-black/30 transition-all duration-300 group-hover:w-2/3" />
-      </span>
-    </Link>
-  );
-}
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-zinc-50 to-white dark:from-black dark:to-zinc-950">
-      <main className="w-full max-w-3xl px-6 py-20">
-        {/* Header */}
-        <div className="text-center sm:text-left">
-          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-black dark:text-white">
+    <div className="space-y-12">
+      {/* Hero */}
+      <section className="rounded-2xl border bg-background p-8 md:p-12">
+        <div className="max-w-3xl space-y-5">
+          <p className="text-sm uppercase tracking-wider text-muted-foreground">KYMN presents</p>
+          <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">
             Difficult Conversations
           </h1>
-          <p className="mt-3 max-w-xl text-base sm:text-lg text-zinc-600 dark:text-zinc-400">
-            Changing the world, one difficult conversation at a time.
+          <p className="text-lg text-muted-foreground">
+            Changing the world, one difficult conversation at a time. We build tools, spaces, and habits
+            so people can disagree respectfully—and learn something real.
           </p>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Button asChild size="lg">
+              <Link href="/peb">Explore Perspective Exchange Blog</Link>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <Link href="/signup">Join / Sign in</Link>
+            </Button>
+          </div>
         </div>
+      </section>
 
-        {/* Buttons */}
-        <div className="mt-10 grid gap-4">
-          <ButtonLink href="/peb" variant="outline">
-            Perspective Exchange Blog
-          </ButtonLink>
+      {/* Highlights */}
+      <section className="grid gap-6 md:grid-cols-3">
+        <Card className="hover:shadow-sm transition">
+          <CardContent className="p-6 space-y-2">
+            <h3 className="text-lg font-semibold">Perspective Exchange Blog</h3>
+            <p className="text-sm text-muted-foreground">
+              Read a prompt, see credible viewpoints, then add your own letter—steel-manned and respectful.
+            </p>
+            <Button asChild variant="ghost" className="px-0">
+              <Link href="/peb">Browse threads →</Link>
+            </Button>
+          </CardContent>
+        </Card>
 
-          <ButtonLink href="/food-for-talk" variant="outline">
-            Food for Talk
-          </ButtonLink>
+        <Card className="hover:shadow-sm transition">
+          <CardContent className="p-6 space-y-2">
+            <h3 className="text-lg font-semibold">Food for Talk</h3>
+            <p className="text-sm text-muted-foreground">
+              Interviews, skill cards, and classroom kits for running judgment-free difficult conversations.
+            </p>
+            <Button asChild variant="ghost" className="px-0">
+              <Link href="/resources">Open the library →</Link>
+            </Button>
+          </CardContent>
+        </Card>
 
-          <ButtonLink href="/profiles" variant="outline">
-            Profiles
-          </ButtonLink>
+        <Card className="hover:shadow-sm transition">
+          <CardContent className="p-6 space-y-2">
+            <h3 className="text-lg font-semibold">Authoring to Authority</h3>
+            <p className="text-sm text-muted-foreground">
+              Practice writing to people in power—parents, coaches, officials—with evidence and empathy.
+            </p>
+            <Button asChild variant="ghost" className="px-0">
+              <Link href="/peb">Start a letter →</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </section>
 
-          <ButtonLink href="/signup" variant="muted">
-            Sign Up / Log In
-          </ButtonLink>
-
-          <Link
-            href="/admin"
-            className="mx-auto w-max text-sm text-zinc-600 hover:text-black underline underline-offset-4 transition"
-          >
-            <span className="inline-flex items-center gap-1">
-              Admin Dashboard
-              <svg
-                className="size-4 transition-transform group-hover:translate-x-0.5"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                aria-hidden="true"
-              >
-                <path d="M5 12h14M13 5l7 7-7 7" />
-              </svg>
-            </span>
-          </Link>
+      {/* CTA */}
+      <section className="rounded-2xl border p-8 text-center md:p-12">
+        <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">
+          Ready to build emotionally mature conversations?
+        </h2>
+        <p className="mt-2 text-muted-foreground">
+          Join KYMN and help pilot formats across schools and communities.
+        </p>
+        <div className="mt-5 flex justify-center">
+          <Button asChild size="lg">
+            <Link href="/signup">Get started</Link>
+          </Button>
         </div>
-      </main>
+      </section>
     </div>
-  );
+  )
 }
