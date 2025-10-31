@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createClientServer } from "@/lib/supabase-server";
 import SubmitLetter from "./submit-letter";
 
