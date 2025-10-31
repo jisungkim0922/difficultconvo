@@ -1,14 +1,20 @@
-export function createClientServer() {
-  // Minimal mock that satisfies .from().select().eq().maybeSingle() chains
-  const q = {
-    select: (_sel?: string) => q,
-    eq: (_col?: string, _val?: any) => q,
-    order: (_col?: string, _opts?: any) => q,
-    limit: (_n?: number) => q,
-    maybeSingle: async () => ({ data: null }),
-    single: async () => ({ data: null }),
+export function createClientServer(): any {
+  const makeQuery = () => {
+    const chain: any = {
+      select: (_sel?: string) => chain,
+      eq: (_col?: string, _val?: any) => chain,
+      order: (_col?: string, _opts?: any) => chain,
+      limit: (_n?: number) => chain,
+      // Allow awaiting the chain directly:
+      //   const { data } = await supabase.from("...").select("...").eq(...);
+      then: (resolve: (v: any) => any) => resolve({ data: [] }),
+      // Keep helpers used elsewhere:
+      maybeSingle: async () => ({ data: null }),
+      single: async () => ({ data: null }),
+    };
+    return chain;
   };
   return {
-    from: (_table: string) => q,
+    from: (_table: string) => makeQuery(),
   };
 }
