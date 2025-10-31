@@ -1,15 +1,18 @@
-import { getSessionProfile, requireRole } from "@/lib/auth";
-import { createClientServer } from "@/lib/supabase-server";
-import ModerationClient from "./moderation-client";
+import { requireRole } from "@/lib/auth";
 
 export default async function AdminLetters() {
-  const session = await getSessionProfile();
-  if (!session || !requireRole(session.profile, ["editor","admin"])) return <div>Not authorized.</div>;
-
-  const supabase = createClientServer();
-  const { data: letters } = await supabase
-    .from("letters").select("id, body, status, created_at")
-    .eq("status","review").order("created_at",{ascending:false});
-
-  return <ModerationClient initial={letters || []} />;
+  const gate = await requireRole("admin");
+  if (!("ok" in gate) || !gate.ok) {
+    return (
+      <main className="mx-auto max-w-3xl px-6 py-16">
+        <section className="rounded-2xl border p-6">
+          <h1 className="text-2xl font-semibold">Admin</h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Admin tools are temporarily disabled.
+          </p>
+        </section>
+      </main>
+    );
+  }
+  return null;
 }
