@@ -1,19 +1,13 @@
-import { createClientServer } from './supabase-server';
+import type { NextAuthOptions } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
 
-export async function getSessionProfile() {
-  const supabase = createClientServer();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq("id", user.id)
-    .maybeSingle();
-
-  return { user, profile };
-}
-
-export function requireRole(profile: any, roles: string[]) {
-  return !!profile && roles.includes(profile.role);
-}
+export const authOptions: NextAuthOptions = {
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+  ],
+  session: { strategy: "jwt" },
+  pages: { signIn: "/signin" },
+};
