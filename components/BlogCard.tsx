@@ -9,10 +9,10 @@ export default function BlogCard({ post }: { post: Post }) {
   const date = d.toLocaleString(undefined, { month: "short", day: "numeric" });
   return (
     <article className="group overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm">
-      {post.coverUrl ? (
+      {cover ? (
         <div className="relative h-48 w-full">
           <Image
-            src={post.coverUrl}
+            src={cover}
             alt={post.title}
             fill
             sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 25vw"
