@@ -4,6 +4,7 @@ import { Playfair_Display, Inter } from "next/font/google";
 import AuthProvider from "../components/AuthProvider";
 import Backdrop from "../components/Backdrop";
 import HomeFab from "../components/HomeFab";
+import SideMenu from "../components/SideMenu";
 
 const playfair = Playfair_Display({ subsets: ["latin"], weight: ["700","800","900"], variable: "--font-display" });
 const inter = Inter({ subsets: ["latin"] });
@@ -20,7 +21,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
           <Backdrop />                    {/* fixed background shapes */}
           <div className="relative z-[2]">{children}</div>  {/* page content */}
-          <HomeFab />                     {/* floating Home button (hidden on "/") */}
+          <SideMenu />                    {/* animated drawer + FAB */}
+          <HomeFab />                     {/* floating Home button */}
         </AuthProvider>
       </body>
     </html>

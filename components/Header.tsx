@@ -1,38 +1,37 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Header() {
-  const { data: session, status } = useSession();
-  useEffect(() => { if (status === "authenticated") fetch("/api/session/mark", { method: "POST" }).catch(() => {}); }, [status]);
+  const { data: session } = useSession();
 
   return (
-    <header className="relative z-10 w-screen">
-      <div className="flex w-full items-center justify-between py-6 px-0">
+    <header className="relative z-[3] w-screen">
+      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 lg:px-16">
         <Link href="/" className="flex items-center gap-3">
           <Image
             src="/dcm-logo.png"
-            alt="Difficult Conversations Movement"
-            width={520}
-            height={208}
+            alt="Difficult Conversations"
+            width={220} height={70}
+            className="h-[64px] w-auto"  /* bigger logo */
             priority
-            className="h-20 w-auto md:h-24"
           />
         </Link>
-        <nav className="flex items-center gap-5 text-sm font-medium text-neutral-700">
-          <Link className="hidden md:inline hover:underline" href="#mission">Mission</Link>
-          <a className="hidden md:inline hover:underline" href="/blog">Blog</a> 
-          <Link className="hidden md:inline hover:underline" href="#initiatives">Initiatives</Link>
-          <Link className="hidden md:inline hover:underline" href="#listen">Podcast</Link>
-          {!session ? (
-            <button onClick={() => signIn("google")} className="rounded-xl border px-3 py-1.5 text-sm">Sign in</button>
+
+        <nav className="hidden items-center gap-8 md:flex text-sm">
+          <Link className="hover:underline" href="#mission">Mission</Link>
+          <Link className="hover:underline" href="/blog">Blog</Link>
+          <Link className="hover:underline" href="#initiatives">Initiatives</Link>
+          <Link className="hover:underline" href="#podcast">Podcast</Link>
+          {session?.user ? (
+            <button onClick={() => signOut()} className="rounded border px-3 py-1">
+              Sign out
+            </button>
           ) : (
-            <div className="flex items-center gap-3">
-              <Link href="/me" className="text-sm hover:underline">My page</Link>
-              <button onClick={() => signOut({ callbackUrl: "/" })} className="rounded-xl border px-3 py-1.5 text-sm">Sign out</button>
-            </div>
+            <button onClick={() => signIn("google")} className="rounded border px-3 py-1">
+              Sign in
+            </button>
           )}
         </nav>
       </div>

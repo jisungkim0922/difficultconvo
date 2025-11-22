@@ -9,8 +9,8 @@ export default function Landing() {
 
       {/* HERO */}
       <section className="relative w-screen min-h-[76vh] md:min-h-[86vh]">
-        {/* Mic pinned to the right edge; slight negative to beat asset padding */}
-        <div className="pointer-events-none absolute inset-y-0 right-0 md:right-[-1vw] w-[72vw] sm:w-[65vw] md:w-[58vw]">
+        {/* Mic pinned right, scaled 1.2× */}
+        <div className="pointer-events-none absolute inset-y-0 right-0 md:right-[-1vw] w-[72vw] sm:w-[65vw] md:w-[58vw] origin-right scale-[1.2]">
           <img
             src="https://bc-user-uploads.brandcrowd.com/public/media-Production/3a036466-f3c6-49f6-9137-3ef46ba531c1/d948096c-7d9e-49b5-97d7-111d37c43040_2x"
             alt="Studio microphone"
@@ -24,7 +24,8 @@ export default function Landing() {
           <div className="order-2 md:order-1 flex items-center p-6 sm:p-10 lg:p-16 xl:p-20">
             <div>
               <p className="mb-3 text-sm font-medium tracking-wide text-neutral-600">KYND Presents:</p>
-              <h1 className="display text-balance text-4xl font-black tracking-[-0.02em] sm:text-5xl lg:text-6xl">
+              <h1 className="display text-balance font-black tracking-[-0.02em]
+                             text-5xl sm:text-6xl lg:text-7xl xl:text-8xl">
                 Difficult Conversations<br/>Movement
               </h1>
               <div className="mt-6 flex flex-wrap items-center gap-4" id="listen">
@@ -72,9 +73,9 @@ export default function Landing() {
         <div className="w-full px-6 lg:px-16">
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             <IconTile icon={<Globe2 className="h-8 w-8" />} label="Global Perspectives" href="#" />
-            <IconTile icon={<Lightbulb className="h-8 w-8" />} label="Food for Talk" href="#" />
-            <IconTile icon={<Mail className="h-8 w-8" />} label="Authoring to Authority" href="#" />
-            <IconTile icon={<Instagram className="h-8 w-8" />} label="Perspective Exchange Blog" href="#" />
+            <IconTile icon={<Lightbulb className="h-8 w-8" />} label="Food for Talk" href="#food-for-talk" />
+            <IconTile icon={<Mail className="h-8 w-8" />} label="Authoring to Authority" href="#authoring" />
+            <IconTile icon={<Instagram className="h-8 w-8" />} label="Perspective Exchange Blog" href="/blog" />
           </div>
           <div className="mt-10 flex items-center justify-between border-t border-white/10 pt-6 text-xs text-white/70">
             <p>© 2024 by Difficult Conversations Movement.</p>
