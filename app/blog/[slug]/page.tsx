@@ -28,7 +28,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
       )}
       {post.excerpt && <p className="mb-4 text-lg text-neutral-800">{post.excerpt}</p>}
       <article className="prose max-w-none prose-neutral">
-        <pre className="whitespace-pre-wrap">{post.body}</pre>
+        <div dangerouslySetInnerHTML={{ __html: post.body || "" }} />
       </article>
     </main>
   );

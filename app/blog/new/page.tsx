@@ -2,6 +2,7 @@ import { addPost } from "../../../lib/posts";
 import { promises as fs } from "fs";
 import path from "path";
 import { redirect } from "next/navigation";
+import RichEditor from "../../../components/RichEditor";
 
 async function createPost(formData: FormData) {
   "use server";
@@ -9,7 +10,7 @@ async function createPost(formData: FormData) {
   const author = String(formData.get("author") || "").trim();
   const minutes = Number(formData.get("minutes") || 3);
   const excerpt = String(formData.get("excerpt") || "").trim();
-  const body = String(formData.get("body") || "").trim();
+  const bodyHtml = String(formData.get("body") || ""); // from RichEditor
   const file = formData.get("cover") as File | null;
 
   if (!title || !author) return;
@@ -29,9 +30,9 @@ async function createPost(formData: FormData) {
   await addPost({
     title,
     author: { name: author },
-    readMinutes: minutes || Math.max(1, Math.round(body.split(/\s+/).length / 200)),
+    readMinutes: minutes || 3,
     excerpt,
-    body,
+    body: bodyHtml,
     coverUrl,
   });
 
@@ -68,10 +69,10 @@ export default function NewPostPage() {
           <textarea name="excerpt" rows={2} className="w-full rounded-lg border px-3 py-2" />
         </label>
 
-        <label className="block">
+        <div className="block">
           <span className="mb-1 block text-sm font-medium">Body</span>
-          <textarea name="body" rows={10} className="w-full rounded-lg border px-3 py-2 font-mono" />
-        </label>
+          <RichEditor name="body" placeholder="Write your post… You can paste or drop images, too." />
+        </div>
 
         <div className="flex items-center gap-3">
           <button className="rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white hover:bg-black/90">

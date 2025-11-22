@@ -10,7 +10,7 @@ export type Post = {
   readMinutes: number;
   coverUrl?: string;
   excerpt?: string;
-  body?: string;
+  body?: string; // HTML
   stats: { views: number; likes: number };
 };
 

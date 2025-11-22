@@ -23,6 +23,7 @@ export default function Header() {
         </Link>
         <nav className="flex items-center gap-5 text-sm font-medium text-neutral-700">
           <Link className="hidden md:inline hover:underline" href="#mission">Mission</Link>
+          <a className="hidden md:inline hover:underline" href="/blog">Blog</a> 
           <Link className="hidden md:inline hover:underline" href="#initiatives">Initiatives</Link>
           <Link className="hidden md:inline hover:underline" href="#listen">Podcast</Link>
           {!session ? (

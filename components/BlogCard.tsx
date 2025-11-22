@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Eye, Heart, MoreHorizontal } from "lucide-react";
-import type { Post } from "../../lib/posts";
+import type { Post } from "../lib/posts";
 
 export default function BlogCard({ post }: { post: Post }) {
   const d = new Date(post.dateISO);
