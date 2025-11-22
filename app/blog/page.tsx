@@ -1,20 +1,15 @@
-import Link from "next/link";
-
 async function getPosts() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL ?? ""}/api/blog/posts`, { cache: "no-store" });
+  const res = await fetch("/api/blog/posts", { cache: "no-store" });
   if (!res.ok) return { posts: [] };
   return res.json();
 }
-
 export default async function BlogPage() {
   const { posts } = await getPosts();
   return (
     <main className="mx-auto max-w-6xl px-6 py-12">
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-4xl font-extrabold">Blog</h1>
-        <Link href="/blog/new" className="rounded-lg border px-4 py-2 hover:bg-black/5">
-          New post
-        </Link>
+        <a href="/blog/new" className="rounded-lg border px-4 py-2 hover:bg-black/5">New post</a>
       </div>
       <div className="grid gap-6 md:grid-cols-2">
         {posts?.map((p: any) => (
