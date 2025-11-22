@@ -3,6 +3,7 @@ import Image from "next/image";
 import Header from "../components/Header";
 import { Instagram, Mail, Globe2, Lightbulb, Music2, ArrowRight } from "lucide-react";
 
+/* ⬇️ thicker stroke (6) + can be reused */
 function Fleur({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 100 100" className={className}>
@@ -10,7 +11,7 @@ function Fleur({ className = "" }: { className?: string }) {
         d="M50 10c0 17-13 30-30 30 17 0 30 13 30 30 0-17 13-30 30-30-17 0-30-13-30-30z"
         fill="none"
         stroke="currentColor"
-        strokeWidth="3"
+        strokeWidth="6"
         strokeLinecap="round"
       />
     </svg>
@@ -20,24 +21,24 @@ function Fleur({ className = "" }: { className?: string }) {
 export default function Landing() {
   return (
     <div className="relative min-h-screen w-screen overflow-x-hidden bg-white text-[#1A1A1A]">
-      {/* ✨ Back layer: three grey shapes (paper texture) */}
+      {/* BACK LAYER — bigger, thicker, semi-transparent */}
       <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
         {/* top-center */}
-        <Fleur className="absolute left-1/2 top-[6vh] h-[120px] w-[120px] -translate-x-1/2 text-neutral-300/70" />
+        <Fleur className="absolute left-1/2 top-[5vh] -translate-x-1/2 text-neutral-300/70 h-[160px] w-[160px] md:h-[220px] md:w-[220px] xl:h-[280px] xl:w-[280px]" />
         {/* mid-right */}
-        <Fleur className="absolute right-[5vw] top-[22vh] h-[170px] w-[170px] text-neutral-300/60" />
+        <Fleur className="absolute right-[5vw] top-[20vh] text-neutral-300/60 h-[190px] w-[190px] md:h-[260px] md:w-[260px] xl:h-[320px] xl:w-[320px]" />
         {/* bottom-left */}
-        <Fleur className="absolute -left-[1vw] bottom-[8vh] h-[190px] w-[190px] text-neutral-300/40" />
+        <Fleur className="absolute left-[-1vw] bottom-[7vh] text-neutral-300/50 h-[190px] w-[190px] md:h=[260px] md:w=[260px] xl:h-[320px] xl:w-[320px]" />
       </div>
 
-      {/* ▲ content layer */}
+      {/* CONTENT LAYER */}
       <div className="relative z-10">
         <Header />
 
         {/* HERO */}
         <section className="relative w-screen min-h-[72vh] md:min-h-[80vh]">
           {/* Mic pinned to right edge */}
-          <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[54vw] md:block">
+          <div className="pointer-events-none absolute inset-y-0 right-0 md:right-[-1px] hidden w-[54vw] md:block">
             <Image
               src="https://bc-user-uploads.brandcrowd.com/public/media-Production/3a036466-f3c6-49f6-9137-3ef46ba531c1/d948096c-7d9e-49b5-97d7-111d37c43040_2x"
               alt="Studio microphone"
