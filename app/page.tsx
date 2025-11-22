@@ -10,8 +10,7 @@ export default function Landing() {
 
       {/* HERO (mic sticks to right edge) */}
       <section className="relative w-screen min-h-[76vh] md:min-h-[86vh]">
-        {/* Absolute, right-0; slight bleed to defeat any transparent edge in the asset */}
-        <div className="pointer-events-none absolute inset-y-0 right-0 md:right-[-0.5vw] hidden w-[58vw] md:block">
+        {/* Absolute, right-0 md:right-[-1vw] hidden w-[58vw] md:block"pointer-events-none absolute inset-y-0 right-0 md:right-[-0.5vw] hidden w-[58vw] md:block">
           <Image
             src="https://bc-user-uploads.brandcrowd.com/public/media-Production/3a036466-f3c6-49f6-9137-3ef46ba531c1/d948096c-7d9e-49b5-97d7-111d37c43040_2x"
             alt="Studio microphone"

@@ -1,6 +1,6 @@
 export default function Backdrop() {
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-[1] overflow-hidden">
       {/* top-center */}
       <Fleur className="absolute left-1/2 top-[5vh] -translate-x-1/2 text-neutral-300/65 h-[200px] w-[200px] md:h-[260px] md:w-[260px] xl:h-[300px] xl:w-[300px]" />
       {/* mid-right */}
@@ -17,7 +17,7 @@ function Fleur({ className = "" }: { className?: string }) {
         d="M50 10c0 17-13 30-30 30 17 0 30 13 30 30 0-17 13-30 30-30-17 0-30-13-30-30z"
         fill="none"
         stroke="currentColor"
-        strokeWidth="6"
+        strokeWidth="8"
         strokeLinecap="round"
       />
     </svg>
