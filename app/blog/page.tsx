@@ -1,25 +1,28 @@
-import { getPosts } from "../../lib/posts";
-import BlogCard from "../../components/BlogCard";
 import Link from "next/link";
+import { listPosts } from "../../lib/posts";
 
 export const dynamic = "force-dynamic";
 
-export default async function BlogIndex() {
-  const posts = await getPosts();
+export default async function BlogPage() {
+  const posts = await listPosts();
   return (
-    <main className="mx-auto max-w-[1400px] px-4 pb-24 pt-10">
+    <main className="mx-auto max-w-4xl px-4 py-10">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold tracking-tight">Perspective Exchange • Blog</h1>
-        <Link
-          href="/blog/new"
-          className="rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white hover:bg-black/90"
-        >
-          New Post
-        </Link>
+        <h1 className="text-2xl font-bold">Blog</h1>
+        <a href="/blog/new" className="rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white hover:bg-black/90">Write</a>
       </div>
-
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {posts.map((p) => <BlogCard key={p.id} post={p} />)}
+      <div className="grid gap-4">
+        {posts.map(p => (
+          <Link key={p.slug} href={`/blog/${p.slug}`} className="block rounded-xl border p-4 hover:bg-black/5">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold">{p.title}</h2>
+              <span className="text-xs text-neutral-500">{new Date(p.created_at).toLocaleDateString()}</span>
+            </div>
+            {p.excerpt && <p className="mt-1 line-clamp-2 text-sm text-neutral-600">{p.excerpt}</p>}
+            <p className="mt-1 text-xs text-neutral-500">{p.author_name || p.author_email}</p>
+          </Link>
+        ))}
+        {posts.length === 0 && <p className="text-sm text-neutral-600">No posts yet.</p>}
       </div>
     </main>
   );

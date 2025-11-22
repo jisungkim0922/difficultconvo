@@ -1,35 +1,50 @@
-import { getPostBySlug } from "../../../lib/posts";
-import Image from "next/image";
 import Link from "next/link";
+import { getPostBySlug } from "../../../lib/posts";
+import { getUserRole, canEditOrDelete } from "../../../lib/roles";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../api/auth/[...nextauth]/route";
 
 export const dynamic = "force-dynamic";
 
-export default async function PostPage({ params }: { params: { slug: string } }) {
+export default async function PostView({ params }: { params: { slug: string } }) {
   const post = await getPostBySlug(params.slug);
   if (!post) {
-    return (
-      <main className="mx-auto max-w-3xl px-4 py-16">
-        <p className="mb-6 text-sm text-neutral-500">Post not found.</p>
-        <Link href="/blog" className="underline">Back to blog</Link>
-      </main>
-    );
+    return <main className="mx-auto max-w-3xl px-4 py-10"><p>Not found.</p></main>;
   }
-  const d = new Date(post.dateISO);
-  const date = d.toLocaleDateString(undefined, { year:"numeric", month:"long", day:"numeric" });
+  const session = await getServerSession(authOptions);
+  const email = session?.user?.email || null;
+  const role = await getUserRole(email);
+  const mayEdit = canEditOrDelete(role, post.author_email, email);
+
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10">
-      <Link href="/blog" className="text-sm underline">← Back to blog</Link>
-      <h1 className="mt-3 text-3xl font-bold">{post.title}</h1>
-      <p className="mt-2 text-sm text-neutral-600">{post.author.name} • {date} • {post.readMinutes} min read</p>
-      {post.coverUrl && (
-        <div className="relative my-6 h-[300px] w-full overflow-hidden rounded-lg md:h-[420px]">
-          <Image src={post.coverUrl} alt={post.title} fill className="object-cover" />
+    <main className="mx-auto max-w-3xl px-4 py-10 space-y-4">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">{post.title}</h1>
+        <div className="flex gap-2">
+          <Link href="/blog" className="rounded border px-3 py-1 text-sm">Back</Link>
+          {mayEdit && (
+            <>
+              <Link href={`/blog/${post.slug}/edit`} className="rounded border px-3 py-1 text-sm">Edit</Link>
+              <form action={`/api/posts/${post.slug}`} method="post" onSubmit={(e)=>{if(!confirm('Delete this post?')) e.preventDefault();}}>
+                <input type="hidden" name="_method" value="DELETE" />
+                <button formAction={`/api/posts/${post.slug}`} className="rounded border px-3 py-1 text-sm"
+                  onClick={async (ev)=>{
+                    ev.preventDefault();
+                    await fetch(`/api/posts/${post.slug}`, { method: "DELETE" }).then(()=>location.href="/blog");
+                  }}>
+                  Delete
+                </button>
+              </form>
+            </>
+          )}
         </div>
-      )}
-      {post.excerpt && <p className="mb-4 text-lg text-neutral-800">{post.excerpt}</p>}
-      <article className="prose max-w-none prose-neutral">
-        <div dangerouslySetInnerHTML={{ __html: post.body || "" }} />
-      </article>
+      </div>
+      {post.excerpt && <p className="text-neutral-600">{post.excerpt}</p>}
+      {post.cover_url && <img src={post.cover_url} alt="" className="mt-2 w-full rounded-lg" />}
+      {post.body && <article className="prose max-w-none" dangerouslySetInnerHTML={{__html: post.body}} />}
+      <p className="pt-4 text-xs text-neutral-500">
+        By {post.author_name || post.author_email} · {new Date(post.created_at).toLocaleString()}
+      </p>
     </main>
   );
 }
