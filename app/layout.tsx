@@ -1,28 +1,20 @@
+import "./globals.css";
 import type { Metadata } from "next";
-import AuthProvider from "../components/AuthProvider";
-import Header from "../components/Header";
+import { Playfair_Display, Inter } from "next/font/google";
+
+const playfair = Playfair_Display({ subsets: ["latin"], weight: ["700","800","900"], variable: "--font-display" });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Difficult Conversations",
   description: "Changing the world, one difficult conversation at a time.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-white text-neutral-900 antialiased">
-        <AuthProvider>
-          <main className="relative mx-auto max-w-7xl px-5 py-10">
-            <div className="rounded-2xl border border-black/10 bg-white p-6 shadow-sm">
-              <Header />
-              {children}
-            </div>
-          </main>
-        </AuthProvider>
+    <html lang="en" className={playfair.variable}>
+      <body className={inter.className}>
+        {children}
       </body>
     </html>
   );
