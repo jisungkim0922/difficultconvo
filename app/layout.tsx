@@ -17,8 +17,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={playfair.variable}>
       <body className={inter.className + " bg-white"}>
         <AuthProvider>
-          <Backdrop />                                {/* fixed layer (z-[1]) */}
-          <div className="relative z-[2]">{children}</div>  {/* scrolling content */}
+          <Backdrop />                   {/* fixed layer (z-[1]) */}
+          <div className="relative z-[2]">{children}</div> {/* scrolling content */}
         </AuthProvider>
       </body>
     </html>

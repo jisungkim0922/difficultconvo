@@ -5,3 +5,6 @@
 /* App-wide tweaks to match .com */
 html, body { background: #fff; color: #1A1A1A; }
 .display { font-family: var(--font-display), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif; }
+
+/* prevent accidental horizontal scroll from edge-pinned hero */
+html, body { overflow-x: hidden; }

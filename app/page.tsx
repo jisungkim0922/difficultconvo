@@ -1,26 +1,25 @@
 import Link from "next/link";
-import Image from "next/image";
 import Header from "../components/Header";
 import { Instagram, Mail, Globe2, Lightbulb, Music2, ArrowRight } from "lucide-react";
 
 export default function Landing() {
   return (
-    <div className="relative min-h-screen w-screen overflow-x-hidden bg-white text-[#1A1A1A]">
+    <div className="relative min-h-screen w-screen bg-white text-[#1A1A1A]">
       <Header />
 
-      {/* HERO (mic sticks to right edge) */}
+      {/* HERO */}
       <section className="relative w-screen min-h-[76vh] md:min-h-[86vh]">
-        {/* Absolute, right-0 md:right-[-1vw] hidden w-[58vw] md:block"pointer-events-none absolute inset-y-0 right-0 md:right-[-0.5vw] hidden w-[58vw] md:block">
-          <Image
+        {/* Mic pinned to the right edge; slight negative to beat asset padding */}
+        <div className="pointer-events-none absolute inset-y-0 right-0 md:right-[-1vw] w-[72vw] sm:w-[65vw] md:w-[58vw]">
+          <img
             src="https://bc-user-uploads.brandcrowd.com/public/media-Production/3a036466-f3c6-49f6-9137-3ef46ba531c1/d948096c-7d9e-49b5-97d7-111d37c43040_2x"
             alt="Studio microphone"
-            fill
-            priority
-            className="object-contain object-right"
+            className="h-full w-full object-contain object-right"
+            decoding="async"
           />
         </div>
 
-        {/* Left column text */}
+        {/* Left text column */}
         <div className="relative grid grid-cols-1 md:grid-cols-2">
           <div className="order-2 md:order-1 flex items-center p-6 sm:p-10 lg:p-16 xl:p-20">
             <div>
@@ -38,7 +37,6 @@ export default function Landing() {
               </div>
             </div>
           </div>
-          {/* spacer for the mic image */}
           <div className="order-1 md:order-2 h-[40vh] md:h-auto" />
         </div>
       </section>
