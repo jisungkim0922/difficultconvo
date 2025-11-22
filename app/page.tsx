@@ -10,8 +10,8 @@ export default function Landing() {
 
       {/* HERO */}
       <section className="relative z-10 w-screen min-h-[72vh] md:min-h-[80vh]">
-        {/* Mic image pinned to the right edge */}
-        <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[54vw] md:block">
+        {/* Mic pinned to right edge */}
+        <div className="pointer-events-none absolute inset-y-0 right-0 md:right-[-1px] hidden w-[54vw] md:block">
           <Image
             src="https://bc-user-uploads.brandcrowd.com/public/media-Production/3a036466-f3c6-49f6-9137-3ef46ba531c1/d948096c-7d9e-49b5-97d7-111d37c43040_2x"
             alt="Studio microphone"
@@ -21,7 +21,7 @@ export default function Landing() {
           />
         </div>
 
-        {/* Text column on the left */}
+        {/* Text column */}
         <div className="relative grid grid-cols-1 md:grid-cols-2">
           <div className="order-2 md:order-1 flex items-center p-6 sm:p-10 lg:p-16">
             <div>
@@ -39,7 +39,6 @@ export default function Landing() {
               </div>
             </div>
           </div>
-          {/* spacer col so the absolute image has room on desktop */}
           <div className="order-1 md:order-2 h-[40vh] md:h-auto" />
         </div>
       </section>
@@ -47,7 +46,7 @@ export default function Landing() {
       {/* DIVIDER */}
       <div className="w-screen"><hr className="border-neutral-200" /></div>
 
-      {/* MISSION (full-bleed; minimal padding for readability) */}
+      {/* MISSION */}
       <section id="mission" className="w-screen">
         <div className="grid w-full grid-cols-1 gap-6 px-6 py-10 md:grid-cols-2 lg:px-16 lg:py-16">
           <div>
@@ -70,7 +69,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* DARK BAND (full-bleed) */}
+      {/* DARK BAND */}
       <section id="initiatives" className="mt-6 w-screen bg-[#121212] py-12 text-white">
         <div className="w-full px-6 lg:px-16">
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
@@ -82,12 +81,8 @@ export default function Landing() {
           <div className="mt-10 flex items-center justify-between border-t border-white/10 pt-6 text-xs text-white/70">
             <p>© 2024 by Difficult Conversations Movement.</p>
             <div className="flex items-center gap-4">
-              <Link aria-label="Instagram" href="https://instagram.com" className="transition hover:opacity-80">
-                <Instagram className="h-5 w-5" />
-              </Link>
-              <Link aria-label="Spotify" href="https://open.spotify.com" className="transition hover:opacity-80">
-                <Music2 className="h-5 w-5" />
-              </Link>
+              <Link aria-label="Instagram" href="https://instagram.com" className="transition hover:opacity-80"><Instagram className="h-5 w-5" /></Link>
+              <Link aria-label="Spotify" href="https://open.spotify.com" className="transition hover:opacity-80"><Music2 className="h-5 w-5" /></Link>
             </div>
           </div>
         </div>

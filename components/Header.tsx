@@ -6,15 +6,16 @@ import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Header() {
   const { data: session, status } = useSession();
-  useEffect(() => { if (status === "authenticated") fetch("/api/session/mark",{method:"POST"}).catch(()=>{}); }, [status]);
+  useEffect(() => { if (status === "authenticated") fetch("/api/session/mark", { method: "POST" }).catch(() => {}); }, [status]);
 
   return (
     <header className="relative z-10 w-screen">
       <div className="flex w-full items-center justify-between py-6 px-0">
-        <Link href="/" className="flex items-center gap-3 pl-0">
+        <Link href="/" className="flex items-center gap-3">
           <Image src="/dcm-logo.png" alt="Difficult Conversations Movement" width={360} height={144} priority className="h-16 w-auto" />
         </Link>
-        <nav className="flex items-center gap-5 pr-4 text-sm font-medium text-neutral-700">
+
+        <nav className="flex items-center gap-5 text-sm font-medium text-neutral-700">
           <Link className="hidden md:inline hover:underline" href="#mission">Mission</Link>
           <Link className="hidden md:inline hover:underline" href="#initiatives">Initiatives</Link>
           <Link className="hidden md:inline hover:underline" href="#listen">Podcast</Link>
