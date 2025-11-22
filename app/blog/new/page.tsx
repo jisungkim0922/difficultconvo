@@ -1,70 +1,57 @@
 "use client";
-import { useRouter } from "next/navigation";
+
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function NewPostPage() {
-  const r = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [cover, setCover] = useState<File | null>(null);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [status, setStatus] = useState<"draft"|"published">("published");
+  const [err, setErr] = useState<string|undefined>();
+  const router = useRouter();
 
-  async function onSubmit(ev: React.FormEvent<HTMLFormElement>) {
-    ev.preventDefault();
-    setLoading(true);
-    const form = ev.currentTarget;
-    const fd = new FormData(form);
-    let cover_url: string | undefined;
-    const file = (cover || (fd.get("cover") as File | null));
-    if (file && file.size > 0) {
-      const up = new FormData();
-      up.set("file", file);
-      const res = await fetch("/api/upload", { method: "POST", body: up });
-      const j = await res.json();
-      if (j?.url) cover_url = j.url;
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    setErr(undefined);
+    const res = await fetch("/api/blog/posts", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ title, content, status }),
+    });
+    if (res.status === 401) {
+      window.location.href = "/api/auth/signin";
+      return;
     }
-    const payload = {
-      title: String(fd.get("title") || ""),
-      excerpt: String(fd.get("excerpt") || ""),
-      body: String(fd.get("body") || ""),
-      cover_url,
-    };
-    const res = await fetch("/api/posts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-    const j = await res.json();
-    setLoading(false);
-    if (res.ok && j?.post?.slug) r.push(`/blog/${j.post.slug}`);
-    else alert(j?.error || "Failed to publish");
+    const data = await res.json();
+    if (!res.ok) {
+      setErr(data?.error || "Failed to post");
+      return;
+    }
+    router.push("/blog");
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="mb-6 text-2xl font-bold">Publish a New Post</h1>
-      <form onSubmit={onSubmit} className="space-y-6">
-        <div className="grid gap-4 md:grid-cols-2">
-          <label className="block">
-            <span className="mb-1 block text-sm font-medium">Title</span>
-            <input name="title" required className="w-full rounded-lg border px-3 py-2" />
-          </label>
-          <label className="block">
-            <span className="mb-1 block text-sm font-medium">Cover image</span>
-            <input name="cover" type="file" accept="image/*" className="w-full rounded-lg border px-3 py-2" onChange={(e)=>setCover(e.target.files?.[0]||null)} />
-          </label>
-        </div>
-
-        <label className="block">
-          <span className="mb-1 block text-sm font-medium">Excerpt</span>
-          <textarea name="excerpt" rows={2} className="w-full rounded-lg border px-3 py-2" />
-        </label>
-
-        <label className="block">
-          <span className="mb-1 block text-sm font-medium">Body (HTML or plain text)</span>
-          <textarea name="body" rows={12} className="w-full rounded-lg border px-3 py-2 font-mono text-sm" placeholder="<p>Write your post…</p>" />
-        </label>
-
+    <main className="mx-auto max-w-3xl px-6 py-12">
+      <h1 className="mb-6 text-3xl font-extrabold">New Post</h1>
+      <form onSubmit={submit} className="space-y-4">
+        <input className="w-full rounded-lg border px-3 py-2"
+               placeholder="Title" value={title} onChange={e=>setTitle(e.target.value)} required />
+        <textarea className="h-60 w-full rounded-lg border px-3 py-2"
+                  placeholder="Write your post (markdown or plain text)"
+                  value={content} onChange={e=>setContent(e.target.value)} required />
         <div className="flex items-center gap-3">
-          <button disabled={loading} className="rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white hover:bg-black/90 disabled:opacity-60">
-            {loading ? "Publishing…" : "Publish"}
+          <label className="text-sm">Status</label>
+          <select className="rounded-lg border px-2 py-1"
+                  value={status} onChange={e=>setStatus(e.target.value as any)}>
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+          </select>
+          <button className="ml-auto rounded-lg bg-black px-4 py-2 text-white hover:opacity-90">
+            Post
           </button>
-          <a href="/blog" className="text-sm underline">Cancel</a>
         </div>
+        {err && <p className="text-sm text-red-600">{err}</p>}
+        <p className="text-sm opacity-60">Members can post and edit/delete their own. Editors can edit/delete all.</p>
       </form>
     </main>
   );
