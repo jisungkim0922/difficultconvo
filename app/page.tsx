@@ -10,7 +10,7 @@ export default function Landing() {
       {/* HERO */}
       <section className="relative w-screen min-h-[76vh] md:min-h-[86vh]">
         {/* Mic pinned right, scaled 1.2× */}
-        <div className="pointer-events-none absolute inset-y-0 right-0 md:right-[-1vw] w-[72vw] sm:w-[65vw] md:w-[58vw] origin-right scale-[1.2]">
+        <div className="pointer-events-none absolute inset-y-0 right-0 md:right-[-1vw] w-[72vw] sm:w-[65vw] md:w-[58vw] origin-right scale-[1.08]">
           <img
             src="https://bc-user-uploads.brandcrowd.com/public/media-Production/3a036466-f3c6-49f6-9137-3ef46ba531c1/d948096c-7d9e-49b5-97d7-111d37c43040_2x"
             alt="Studio microphone"

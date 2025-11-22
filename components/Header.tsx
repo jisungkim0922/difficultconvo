@@ -33,6 +33,7 @@ export default function Header() {
               Sign in
             </button>
           )}
+        <a href="/blog" className="hover:opacity-80">Blog</a>
         </nav>
       </div>
     </header>

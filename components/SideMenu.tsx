@@ -53,6 +53,7 @@ export default function SideMenu() {
           <MenuItem href="/#food-for-talk" label="Food for Talk" onClick={() => setOpen(false)} />
           <MenuItem href="/#authoring" label="Authoring to Authority" onClick={() => setOpen(false)} />
           <MenuItem href="/#global" label="Global Perspectives" onClick={() => setOpen(false)} />
+        <a href="/blog" className="block rounded-lg px-4 py-2 hover:bg-black\/5">Blog</a>
         </nav>
       </aside>
     </>
