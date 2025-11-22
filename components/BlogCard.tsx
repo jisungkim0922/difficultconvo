@@ -4,7 +4,8 @@ import { Eye, Heart, MoreHorizontal } from "lucide-react";
 import type { Post } from "../lib/posts";
 
 export default function BlogCard({ post }: { post: Post }) {
-  const d = new Date(post.dateISO);
+  const when = (post as any).created_at ?? (post as any).createdAt ?? (post as any).dateISO ?? (post as any).date ?? Date.now();
+  const d = new Date(when);
   const date = d.toLocaleString(undefined, { month: "short", day: "numeric" });
   return (
     <article className="group overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm">
