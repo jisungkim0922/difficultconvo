@@ -15,11 +15,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={playfair.variable}>
-      <body className={inter.className}>
+      <body className={inter.className + " bg-white"}>
         <AuthProvider>
-          <div className="relative">
-            <Backdrop />          {/* ← fixed back layer */}
-            <div className="relative z-10">{children}</div> {/* ← content layer */}
+          <div className="relative min-h-screen w-screen">
+            <Backdrop />                 {/* fixed back layer (z-0) */}
+            <div className="relative z-10">{children}</div> {/* content layer */}
           </div>
         </AuthProvider>
       </body>
