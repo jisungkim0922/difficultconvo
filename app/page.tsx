@@ -3,119 +3,91 @@ import Image from "next/image";
 import Header from "../components/Header";
 import { Instagram, Mail, Globe2, Lightbulb, Music2, ArrowRight } from "lucide-react";
 
-/* ⬇️ thicker stroke (6) + can be reused */
-function Fleur({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 100 100" className={className}>
-      <path
-        d="M50 10c0 17-13 30-30 30 17 0 30 13 30 30 0-17 13-30 30-30-17 0-30-13-30-30z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="6"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
 export default function Landing() {
   return (
     <div className="relative min-h-screen w-screen overflow-x-hidden bg-white text-[#1A1A1A]">
-      {/* BACK LAYER — bigger, thicker, semi-transparent */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        {/* top-center */}
-        <Fleur className="absolute left-1/2 top-[5vh] -translate-x-1/2 text-neutral-300/70 h-[160px] w-[160px] md:h-[220px] md:w-[220px] xl:h-[280px] xl:w-[280px]" />
-        {/* mid-right */}
-        <Fleur className="absolute right-[5vw] top-[20vh] text-neutral-300/60 h-[190px] w-[190px] md:h-[260px] md:w-[260px] xl:h-[320px] xl:w-[320px]" />
-        {/* bottom-left */}
-        <Fleur className="absolute left-[-1vw] bottom-[7vh] text-neutral-300/50 h-[190px] w-[190px] md:h=[260px] md:w=[260px] xl:h-[320px] xl:w-[320px]" />
-      </div>
+      <Header />
 
-      {/* CONTENT LAYER */}
-      <div className="relative z-10">
-        <Header />
+      {/* HERO (mic sticks to right edge) */}
+      <section className="relative w-screen min-h-[76vh] md:min-h-[86vh]">
+        {/* Absolute, right-0; slight bleed to defeat any transparent edge in the asset */}
+        <div className="pointer-events-none absolute inset-y-0 right-0 md:right-[-0.5vw] hidden w-[58vw] md:block">
+          <Image
+            src="https://bc-user-uploads.brandcrowd.com/public/media-Production/3a036466-f3c6-49f6-9137-3ef46ba531c1/d948096c-7d9e-49b5-97d7-111d37c43040_2x"
+            alt="Studio microphone"
+            fill
+            priority
+            className="object-contain object-right"
+          />
+        </div>
 
-        {/* HERO */}
-        <section className="relative w-screen min-h-[72vh] md:min-h-[80vh]">
-          {/* Mic pinned to right edge */}
-          <div className="pointer-events-none absolute inset-y-0 right-0 md:right-[-1px] hidden w-[54vw] md:block">
-            <Image
-              src="https://bc-user-uploads.brandcrowd.com/public/media-Production/3a036466-f3c6-49f6-9137-3ef46ba531c1/d948096c-7d9e-49b5-97d7-111d37c43040_2x"
-              alt="Studio microphone"
-              fill
-              priority
-              className="object-contain"
-            />
-          </div>
-
-          {/* Left copy column */}
-          <div className="relative grid grid-cols-1 md:grid-cols-2">
-            <div className="order-2 md:order-1 flex items-center p-6 sm:p-10 lg:p-16">
-              <div>
-                <p className="mb-3 text-sm font-medium tracking-wide text-neutral-600">KYND Presents:</p>
-                <h1 className="display text-balance text-4xl font-black tracking-[-0.02em] sm:text-5xl lg:text-6xl">
-                  Difficult Conversations<br/>Movement
-                </h1>
-                <div className="mt-6 flex flex-wrap items-center gap-4" id="listen">
-                  <Link href="https://open.spotify.com/" className="inline-flex items-center gap-2 rounded-lg bg-[#F2CC50] px-5 py-3 text-sm font-semibold text-[#1A1A1A] shadow-sm transition hover:translate-y-[1px] hover:shadow">
-                    Listen Now <ArrowRight className="h-4 w-4" />
-                  </Link>
-                  <Link href="#mission" className="inline-flex items-center gap-2 rounded-lg border border-neutral-200 bg-white px-5 py-3 text-sm font-semibold text-neutral-800 transition hover:bg-neutral-50">
-                    Our Mission
-                  </Link>
-                </div>
-              </div>
-            </div>
-            {/* spacer for the mic image */}
-            <div className="order-1 md:order-2 h-[40vh] md:h-auto" />
-          </div>
-        </section>
-
-        {/* DIVIDER */}
-        <div className="w-screen"><hr className="border-neutral-200" /></div>
-
-        {/* MISSION */}
-        <section id="mission" className="w-screen">
-          <div className="grid w-full grid-cols-1 gap-6 px-6 py-10 md:grid-cols-2 lg:px-16 lg:py-16">
+        {/* Left column text */}
+        <div className="relative grid grid-cols-1 md:grid-cols-2">
+          <div className="order-2 md:order-1 flex items-center p-6 sm:p-10 lg:p-16 xl:p-20">
             <div>
-              <h2 className="text-2xl font-semibold tracking-tight text-[#5D2A55] sm:text-3xl">
-                Changing the world, one difficult conversation at a time.
-              </h2>
-            </div>
-            <div className="space-y-5 text-[15px] leading-7 text-neutral-800">
-              <p className="font-medium text-neutral-900">Which “landmark” historical event happened without difficult conversations?</p>
-              <p className="text-[17px] font-semibold">Every peace, every justice did.</p>
-              <div className="space-y-3">
-                <p className="font-semibold">Mission Statement:</p>
-                <p>To lead a culture of healthy disagreements; to help people build emotional maturity and resilience; to depolarize local communities; to help learn negotiation and de-escalation tactics; and to call world leaders to action on issues that have been put off because they were considered “too polarizing.”</p>
-              </div>
-              <div className="space-y-3">
-                <p className="font-semibold">Vision Statement:</p>
-                <p>To create a world where difficult conversations don’t feel so difficult.</p>
+              <p className="mb-3 text-sm font-medium tracking-wide text-neutral-600">KYND Presents:</p>
+              <h1 className="display text-balance text-4xl font-black tracking-[-0.02em] sm:text-5xl lg:text-6xl">
+                Difficult Conversations<br/>Movement
+              </h1>
+              <div className="mt-6 flex flex-wrap items-center gap-4" id="listen">
+                <Link href="https://open.spotify.com/" className="inline-flex items-center gap-2 rounded-lg bg-[#F2CC50] px-5 py-3 text-sm font-semibold text-[#1A1A1A] shadow-sm transition hover:translate-y-[1px] hover:shadow">
+                  Listen Now <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link href="#mission" className="inline-flex items-center gap-2 rounded-lg border border-neutral-200 bg-white px-5 py-3 text-sm font-semibold text-neutral-800 transition hover:bg-neutral-50">
+                  Our Mission
+                </Link>
               </div>
             </div>
           </div>
-        </section>
+          {/* spacer for the mic image */}
+          <div className="order-1 md:order-2 h-[40vh] md:h-auto" />
+        </div>
+      </section>
 
-        {/* DARK BAND */}
-        <section id="initiatives" className="mt-6 w-screen bg-[#121212] py-12 text-white">
-          <div className="w-full px-6 lg:px-16">
-            <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
-              <IconTile icon={<Globe2 className="h-8 w-8" />} label="Global Perspectives" href="#" />
-              <IconTile icon={<Lightbulb className="h-8 w-8" />} label="Food for Talk" href="#" />
-              <IconTile icon={<Mail className="h-8 w-8" />} label="Authoring to Authority" href="#" />
-              <IconTile icon={<Instagram className="h-8 w-8" />} label="Perspective Exchange Blog" href="#" />
+      {/* DIVIDER */}
+      <div className="w-screen"><hr className="border-neutral-200" /></div>
+
+      {/* MISSION */}
+      <section id="mission" className="w-screen">
+        <div className="grid w-full grid-cols-1 gap-6 px-6 py-10 md:grid-cols-2 lg:px-16 lg:py-16">
+          <div>
+            <h2 className="text-2xl font-semibold tracking-tight text-[#5D2A55] sm:text-3xl">
+              Changing the world, one difficult conversation at a time.
+            </h2>
+          </div>
+          <div className="space-y-5 text-[15px] leading-7 text-neutral-800">
+            <p className="font-medium text-neutral-900">Which “landmark” historical event happened without difficult conversations?</p>
+            <p className="text-[17px] font-semibold">Every peace, every justice did.</p>
+            <div className="space-y-3">
+              <p className="font-semibold">Mission Statement:</p>
+              <p>To lead a culture of healthy disagreements; to help people build emotional maturity and resilience; to depolarize local communities; to help learn negotiation and de-escalation tactics; and to call world leaders to action on issues that have been put off because they were considered “too polarizing.”</p>
             </div>
-            <div className="mt-10 flex items-center justify-between border-t border-white/10 pt-6 text-xs text-white/70">
-              <p>© 2024 by Difficult Conversations Movement.</p>
-              <div className="flex items-center gap-4">
-                <Link aria-label="Instagram" href="https://instagram.com" className="transition hover:opacity-80"><Instagram className="h-5 w-5" /></Link>
-                <Link aria-label="Spotify" href="https://open.spotify.com" className="transition hover:opacity-80"><Music2 className="h-5 w-5" /></Link>
-              </div>
+            <div className="space-y-3">
+              <p className="font-semibold">Vision Statement:</p>
+              <p>To create a world where difficult conversations don’t feel so difficult.</p>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
+
+      {/* DARK BAND */}
+      <section id="initiatives" className="mt-6 w-screen bg-[#121212] py-12 text-white">
+        <div className="w-full px-6 lg:px-16">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+            <IconTile icon={<Globe2 className="h-8 w-8" />} label="Global Perspectives" href="#" />
+            <IconTile icon={<Lightbulb className="h-8 w-8" />} label="Food for Talk" href="#" />
+            <IconTile icon={<Mail className="h-8 w-8" />} label="Authoring to Authority" href="#" />
+            <IconTile icon={<Instagram className="h-8 w-8" />} label="Perspective Exchange Blog" href="#" />
+          </div>
+          <div className="mt-10 flex items-center justify-between border-t border-white/10 pt-6 text-xs text-white/70">
+            <p>© 2024 by Difficult Conversations Movement.</p>
+            <div className="flex items-center gap-4">
+              <Link aria-label="Instagram" href="https://instagram.com" className="transition hover:opacity-80"><Instagram className="h-5 w-5" /></Link>
+              <Link aria-label="Spotify" href="https://open.spotify.com" className="transition hover:opacity-80"><Music2 className="h-5 w-5" /></Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

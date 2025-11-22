@@ -1,25 +1,24 @@
 export default function Backdrop() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      {/* Top-center */}
-      <Fleur className="absolute left-1/2 top-[6vh] h-[120px] w-[120px] -translate-x-1/2 text-neutral-300/60" />
-      {/* Mid-right */}
-      <Fleur className="absolute right-[6vw] top-[24vh] h-[170px] w-[170px] text-neutral-300/60" />
-      {/* Bottom-left */}
-      <Fleur className="absolute left-[-2vw] bottom-[8vh] h-[190px] w-[190px] text-neutral-300/40" />
+      {/* top-center */}
+      <Fleur className="absolute left-1/2 top-[5vh] -translate-x-1/2 text-neutral-300/65 h-[200px] w-[200px] md:h-[260px] md:w-[260px] xl:h-[300px] xl:w-[300px]" />
+      {/* mid-right */}
+      <Fleur className="absolute right-[4.5vw] top-[18vh] text-neutral-300/60 h-[240px] w-[240px] md:h-[300px] md:w-[300px] xl:h-[340px] xl:w-[340px]" />
+      {/* bottom-left */}
+      <Fleur className="absolute left-[-2vw] bottom-[6vh] text-neutral-300/50 h-[220px] w-[220px] md:h-[280px] md:w-[280px] xl:h-[320px] xl:w-[320px]" />
     </div>
   );
 }
-
 function Fleur({ className = "" }: { className?: string }) {
-  // 4-lobed pinwheel; uses currentColor so parent class controls color/opacity
   return (
     <svg viewBox="0 0 100 100" className={className}>
       <path
         d="M50 10c0 17-13 30-30 30 17 0 30 13 30 30 0-17 13-30 30-30-17 0-30-13-30-30z"
         fill="none"
         stroke="currentColor"
-        strokeWidth="3"
+        strokeWidth="6"
+        strokeLinecap="round"
       />
     </svg>
   );
