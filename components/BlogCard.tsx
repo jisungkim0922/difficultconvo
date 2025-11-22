@@ -7,7 +7,8 @@ export default function BlogCard({ post }: { post: Post }) {
   const when = (post as any).created_at ?? (post as any).createdAt ?? (post as any).dateISO ?? (post as any).date ?? Date.now();
   const d = new Date(when);
   const date = d.toLocaleString(undefined, { month: "short", day: "numeric" });
-  return (
+    const cover = (post as any).cover_url ?? (post as any).coverUrl ?? null;
+return (
     <article className="group overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm">
       {cover ? (
         <div className="relative h-48 w-full">
