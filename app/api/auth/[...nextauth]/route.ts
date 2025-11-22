@@ -1,7 +1,10 @@
-import NextAuth, { type NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-export const authOptions: NextAuthOptions = {
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+const options = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -9,12 +12,8 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt" as const },
 };
 
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
-
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
-// (intentionally no default export)
+const authHandler = NextAuth(options);
+export { authHandler as GET, authHandler as POST };
