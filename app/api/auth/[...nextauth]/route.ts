@@ -1,7 +1,7 @@
-import NextAuth from "next-auth";
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -9,8 +9,12 @@ export const authOptions = {
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
+  session: { strategy: "jwt" },
 };
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
-export default handler;
+// (intentionally no default export)

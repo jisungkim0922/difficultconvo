@@ -1,15 +1,25 @@
+import Link from "next/link";
+import { headers } from "next/headers";
+
 async function getPosts() {
-  const res = await fetch("/api/blog/posts", { cache: "no-store" });
+  const h = headers();
+  const host = h.get("x-forwarded-host") ?? h.get("host") ?? "localhost:3000";
+  const proto = h.get("x-forwarded-proto") ?? "http";
+  const base = process.env.NEXT_PUBLIC_SITE_URL || `${proto}://${host}`;
+  const res = await fetch(new URL("/api/blog/posts", base).toString(), { cache: "no-store" });
   if (!res.ok) return { posts: [] };
   return res.json();
 }
+
 export default async function BlogPage() {
   const { posts } = await getPosts();
   return (
     <main className="mx-auto max-w-6xl px-6 py-12">
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-4xl font-extrabold">Blog</h1>
-        <a href="/blog/new" className="rounded-lg border px-4 py-2 hover:bg-black/5">New post</a>
+        <Link href="/blog/new" className="rounded-lg border px-4 py-2 hover:bg-black/5">
+          New post
+        </Link>
       </div>
       <div className="grid gap-6 md:grid-cols-2">
         {posts?.map((p: any) => (
