@@ -10,6 +10,7 @@ export default function BlogCard({ post }: { post: Post }) {
     const cover = (post as any).cover_url ?? (post as any).coverUrl ?? null;
   const authorName = (post as any).author_name ?? (post as any).author?.name ?? (post as any).author ?? (post as any).user_name ?? "Member";
   const readMinutes = (post as any).readMinutes ?? Math.max(1, Math.ceil(String((post as any).content || "").split(/\s+/).length / 220));
+  const stats = (post as any).stats ?? { views: (post as any).views ?? 0, likes: (post as any).likes ?? 0 };
 return (
     <article className="group overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm">
       {cover ? (
@@ -48,8 +49,8 @@ return (
         </Link>
 
         <div className="mt-3 flex items-center gap-4 text-xs text-white/70">
-          <span className="inline-flex items-center gap-1"><Eye className="h-4 w-4" /> {post.stats.views}</span>
-          <span className="inline-flex items-center gap-1"><Heart className="h-4 w-4" /> {post.stats.likes}</span>
+          <span className="inline-flex items-center gap-1"><Eye className="h-4 w-4" /> {stats.views}</span>
+          <span className="inline-flex items-center gap-1"><Heart className="h-4 w-4" /> {stats.likes}</span>
         </div>
       </div>
     </article>
