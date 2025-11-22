@@ -19,10 +19,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={playfair.variable}>
       <body className={inter.className + " bg-white"}>
         <AuthProvider>
-          <Backdrop />                    {/* fixed background shapes */}
-          <div className="relative z-[2]">{children}</div>  {/* page content */}
-          <SideMenu />                    {/* animated drawer + FAB */}
-          <HomeFab />                     {/* floating Home button */}
+          <Backdrop />
+          <div className="relative z-[2]">{children}</div>
+          <SideMenu />
+          <HomeFab />
         </AuthProvider>
       </body>
     </html>

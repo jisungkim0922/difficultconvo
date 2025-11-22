@@ -1,0 +1,21 @@
+== Dependencies of interest ==
+@supabase/supabase-js@^2.76.1
+next-auth@^4.24.13
+
+== .env* files present ==
+ - .env.local
+ - .env.vercel
+
+== Environment variable names (values masked) ==
+
+== NextAuth / auth providers referenced ==
+
+== Supabase usage in code ==
+
+== Upload/storage libs referenced in code ==
+
+== Common service env names present (masked) ==
+.env.local:NEXTAUTH_URL=***masked***
+.env.local:NEXTAUTH_SECRET=***masked***
+.env.local:GOOGLE_CLIENT_ID=***masked***
+.env.local:GOOGLE_CLIENT_SECRET=***masked***
