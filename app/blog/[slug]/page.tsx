@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getPostBySlug } from "../../../lib/posts";
 import { getUserRole, canEditOrDelete } from "../../../lib/roles";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
