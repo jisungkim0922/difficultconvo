@@ -8,6 +8,8 @@ export default function BlogCard({ post }: { post: Post }) {
   const d = new Date(when);
   const date = d.toLocaleString(undefined, { month: "short", day: "numeric" });
     const cover = (post as any).cover_url ?? (post as any).coverUrl ?? null;
+  const authorName = (post as any).author_name ?? (post as any).author?.name ?? (post as any).author ?? (post as any).user_name ?? "Member";
+  const readMinutes = (post as any).readMinutes ?? Math.max(1, Math.ceil(String((post as any).content || "").split(/\s+/).length / 220));
 return (
     <article className="group overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm">
       {cover ? (
@@ -25,9 +27,9 @@ return (
         <div className="mb-2 flex items-center justify-between text-xs text-white/70">
           <div className="flex items-center gap-2">
             <div className="h-6 w-6 overflow-hidden rounded-full bg-white/10 ring-1 ring-white/10" />
-            <span className="opacity-90">{post.author.name}</span>
+            <span className="opacity-90">{authorName}</span>
             <span className="opacity-60">• {date}</span>
-            <span className="opacity-60">• {post.readMinutes} min read</span>
+            <span className="opacity-60">• {readMinutes} min read</span>
           </div>
           <MoreHorizontal className="h-4 w-4 opacity-70" />
         </div>
