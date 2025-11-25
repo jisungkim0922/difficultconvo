@@ -8,3 +8,11 @@ html, body { background: #fff; color: #1A1A1A; }
 
 /* prevent accidental horizontal scroll from edge-pinned hero */
 html, body { overflow-x: hidden; }
+
+/* TNR global override */
+:root {
+  --font-default: "Times New Roman", Times, serif;
+}
+html, body, * {
+  font-family: var(--font-default) !important;
+}
