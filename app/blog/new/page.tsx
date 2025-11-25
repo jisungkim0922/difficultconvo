@@ -1,56 +1,62 @@
 "use client";
+import dynamic from "next/dynamic";
+import { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
 
-import { useState } from "react";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "react-quill/dist/quill.snow.css";
 
 export default function NewPostPage() {
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [content, setContent] = useState("");
-  const [msg, setMsg] = useState<string | null>(null);
+  const [coverUrl, setCoverUrl] = useState<string | undefined>();
   const [busy, setBusy] = useState(false);
+  const router = useRouter();
 
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
+  const onImage = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    const fd = new FormData();
+    fd.append("file", f);
+    const res = await fetch("/api/upload", { method: "POST", body: fd });
+    const json = await res.json();
+    if (json?.url) setCoverUrl(json.url);
+  }, []);
+
+  const submit = async () => {
+    if (!title || !slug || !content) return alert("Fill in title, slug, content");
     setBusy(true);
-    setMsg(null);
-    try {
-      const res = await fetch("/api/blog/posts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, slug, content }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || "Failed");
-      setMsg("Posted ✔");
-      setTitle(""); setSlug(""); setContent("");
-    } catch (err: any) {
-      setMsg(`Error: ${err.message}`);
-    } finally {
-      setBusy(false);
-    }
-  }
+    const res = await fetch("/api/blog/posts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, slug, content, cover_url: coverUrl }),
+    });
+    setBusy(false);
+    if (!res.ok) return alert("Save failed");
+    router.push("/blog");
+  };
 
   return (
-    <main className="mx-auto max-w-2xl p-6">
-      <h1 className="text-2xl font-bold mb-4">New Post</h1>
-      <form onSubmit={submit} className="space-y-4">
-        <div>
-          <label className="block mb-1">Title</label>
-          <input className="w-full border p-2 rounded" value={title} onChange={e=>setTitle(e.target.value)} required />
+    <main className="container mx-auto px-6 py-10">
+      <h1 className="text-3xl font-bold mb-6">New Post</h1>
+      <div className="space-y-4">
+        <input className="border p-3 rounded w-full" placeholder="Title"
+               value={title} onChange={e=>setTitle(e.target.value)} />
+        <input className="border p-3 rounded w-full" placeholder="Slug (e.g. my-first-post)"
+               value={slug} onChange={e=>setSlug(e.target.value)} />
+        <div className="border rounded">
+          <ReactQuill theme="snow" value={content} onChange={setContent} />
         </div>
-        <div>
-          <label className="block mb-1">Slug</label>
-          <input className="w-full border p-2 rounded" value={slug} onChange={e=>setSlug(e.target.value)} required />
+        <div className="flex items-center gap-3">
+          <input type="file" accept="image/*" onChange={onImage} />
+          {coverUrl && <span className="text-sm">uploaded ✓</span>}
         </div>
-        <div>
-          <label className="block mb-1">Content</label>
-          <textarea className="w-full border p-2 rounded min-h-[200px]" value={content} onChange={e=>setContent(e.target.value)} required />
-        </div>
-        <button disabled={busy} className="border px-4 py-2 rounded">
-          {busy ? "Posting…" : "Post"}
+        <button disabled={busy} onClick={submit}
+                className="px-4 py-2 rounded bg-black text-white disabled:opacity-50">
+          {busy ? "Saving…" : "Publish"}
         </button>
-        {msg && <p className="mt-2">{msg}</p>}
-      </form>
+      </div>
     </main>
   );
 }

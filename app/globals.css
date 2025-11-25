@@ -16,3 +16,13 @@ html, body { overflow-x: hidden; }
 html, body, * {
   font-family: var(--font-default) !important;
 }
+
+/* --- DC overrides --- */
+header .logo img, .site-logo img { transform: scale(2); transform-origin: left center; }
+header nav a, header .menu a, .top-nav a { display: none !important; } /* hide menu items */
+button.hamburger, header [aria-label*="menu"], header .menu-toggle, .hamburger { display: inline-flex !important; }
+
+/* remove gray divider & decorative stars */
+hr, .prose hr, .section-divider, .divider { display: none !important; }
+.decorative-star, .stars, .bg-star, [data-decor="star"] { display: none !important; }
+:root, body { font-family: "Times New Roman", Times, serif !important; }

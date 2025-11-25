@@ -1,19 +1,30 @@
-export const runtime = "nodejs";
 import { NextRequest, NextResponse } from "next/server";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
+
+export const runtime = "nodejs";
 
 export async function GET() {
-  console.log("[/api/blog/posts] GET");
-  return NextResponse.json([]);
+  const { data, error } = await supabaseAdmin
+    .from("posts")
+    .select("id,title,slug,content,cover_url,created_at")
+    .order("created_at", { ascending: false });
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json(data ?? []);
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const { title, slug, content } = await req.json();
+    const body = await req.json();
+    const { title, slug, content, cover_url } = body || {};
     if (!title || !slug || !content) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
-    console.log("[/api/blog/posts] POST", { title, slug, len: (content || "").length });
-    return NextResponse.json({ ok: true }, { status: 201 });
+    const { data, error } = await supabaseAdmin
+      .from("posts")
+      .upsert({ title, slug, content, cover_url })
+      .select();
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ ok: true, post: data?.[0] ?? null }, { status: 201 });
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
