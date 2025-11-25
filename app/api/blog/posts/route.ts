@@ -9,13 +9,10 @@ export async function GET() {
   const list = await s.storage.from("blog").list("", { limit: 100 });
   if (list.error) return NextResponse.json({ error: list.error.message }, { status: 500 });
 
-  const files = (list.data ?? []).filter(f => f.name.endsWith(".json"));
   const posts:any[] = [];
-  for (const f of files) {
+  for (const f of (list.data ?? []).filter(f => f.name.endsWith(".json"))) {
     const { data } = await s.storage.from("blog").download(f.name);
-    if (data) {
-      try { posts.push(JSON.parse(await data.text())); } catch {}
-    }
+    if (data) { try { posts.push(JSON.parse(await data.text())); } catch {} }
   }
   posts.sort((a,b)=> (b.createdAt||"").localeCompare(a.createdAt||""));
   return NextResponse.json(posts);
@@ -26,8 +23,8 @@ export async function POST(req: NextRequest) {
   if (!title || !slug || !content) return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   const s = supabaseAdmin();
   await s.storage.createBucket("blog").catch(()=>{});
-  const payload = JSON.stringify({ title, slug, content, imageUrl: imageUrl||null, createdAt: new Date().toISOString() }, null, 2);
   const key = `${slug}.json`;
+  const payload = JSON.stringify({ title, slug, content, imageUrl: imageUrl||null, createdAt: new Date().toISOString() }, null, 2);
   const { error } = await s.storage.from("blog").upload(key, new Blob([payload], { type: "application/json" }), { upsert: true });
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true }, { status: 201 });

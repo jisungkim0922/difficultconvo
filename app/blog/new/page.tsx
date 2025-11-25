@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-
 export default function NewPost() {
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
@@ -8,20 +7,15 @@ export default function NewPost() {
   const [image, setImage] = useState<File|null>(null);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
-
   async function uploadImage() {
     if (!image) return null;
-    const fd = new FormData();
-    fd.append("file", image);
+    const fd = new FormData(); fd.append("file", image);
     const res = await fetch("/api/upload", { method: "POST", body: fd });
     if (!res.ok) throw new Error("Image upload failed");
-    const data = await res.json();
-    return data.url as string;
+    const data = await res.json(); return data.url as string;
   }
-
   async function submit(e:any) {
-    e.preventDefault();
-    setSaving(true); setMsg("");
+    e.preventDefault(); setSaving(true); setMsg("");
     try {
       const imageUrl = await uploadImage();
       const res = await fetch("/api/blog/posts", {
@@ -31,13 +25,9 @@ export default function NewPost() {
       });
       if (!res.ok) throw new Error(await res.text());
       window.location.href = "/blog";
-    } catch (err:any) {
-      setMsg(err.message || "Error");
-    } finally {
-      setSaving(false);
-    }
+    } catch (err:any) { setMsg(err.message || "Error"); }
+    finally { setSaving(false); }
   }
-
   return (
     <main className="container mx-auto px-6 py-12">
       <h1 className="text-3xl font-bold mb-6">New Post</h1>

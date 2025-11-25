@@ -1,16 +1,18 @@
 :root, body { font-family: "Times New Roman", Times, serif !important; }
 
-/* 2x logo (SVG/IMG) */
-header .logo, .site-logo, [class*="logo"], [data-logo] { transform: scale(2); transform-origin: left center; }
-header .logo img, header .logo svg, .site-logo img, .site-logo svg, [class*="logo"] img, [class*="logo"] svg { height: auto !important; }
+/* 2x logo */
+header .logo, .site-logo, [class*="logo"], [data-logo] {
+  transform: scale(2);
+  transform-origin: left center;
+}
+header .logo img, header .logo svg, .site-logo img, .site-logo svg,
+[class*="logo"] img, [class*="logo"] svg { height: auto !important; }
 
-/* Keep only hamburger (common class/aria patterns) */
+/* Keep hamburger; hide other top nav links */
 header nav a:not(.hamburger):not([aria-label*="menu"]):not([aria-controls*="menu"]) { display: none !important; }
 header .hamburger, header [aria-label*="menu"], header .menu-toggle { display: inline-flex !important; }
 
-/* Remove mid-page gray lines / dividers */
+/* Remove gray dividers and decorative stars */
 hr, .prose hr, .section-divider, .divider, .border-t, .border-b { display: none !important; }
-
-/* Remove decorative gray stars */
 .decorative-star, .stars, .bg-star, [data-decor="star"], [class*="star"] { display: none !important; }
 body [style*="star"], body [style*="stars"] { display: none !important; }

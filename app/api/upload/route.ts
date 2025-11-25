@@ -15,6 +15,6 @@ export async function POST(req: Request) {
   const { error } = await s.storage.from("images").upload(key, file, { upsert: true, contentType: file.type || undefined });
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/${key}`;
-  return NextResponse.json({ key, url: publicUrl }, { status: 201 });
+  const url = `${SUPABASE_URL}/storage/v1/object/public/${key}`;
+  return NextResponse.json({ key, url }, { status: 201 });
 }

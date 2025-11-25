@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 async function getPosts() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || ""}/api/blog/posts`, { cache: "no-store" }).catch(()=>null);
+  const res = await fetch(`/api/blog/posts`, { cache: "no-store" }).catch(()=>null);
   if (!res || !res.ok) return [];
   return res.json();
 }
