@@ -46,3 +46,20 @@
 /* 2f) Keep the actual article visuals intact */
 .blog-root .blog-article img.cover,
 .blog-root .blog-list img { display: block !important; }
+
+/* --- pinpoint remove the fixed star container (global + blog scope) --- */
+:where(.pointer-events-none.fixed.inset-0.z-\[1\].overflow-hidden) { 
+  display: none !important;
+}
+
+/* extra-sure inside blog wrapper */
+.blog-root :where(.pointer-events-none.fixed.inset-0.z-\[1\].overflow-hidden) {
+  display: none !important;
+}
+
+/* just in case the SVGs are mounted elsewhere */
+.blog-root svg.absolute.text-neutral-300\/70,
+.blog-root svg.absolute.text-neutral-300\/60,
+.blog-root svg.absolute.text-neutral-300\/55 {
+  display: none !important;
+}
