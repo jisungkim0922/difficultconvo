@@ -30,3 +30,23 @@ hr, .divider, [class*="border-t"], [class*="border-b"] { border: 0 !important; }
 
 /* Post page body */
 article.prose { max-width: 720px; }
+
+/* ==== WATERMARK NUCLEAR OPTION ==== */
+/* Kill any star/ornament backgrounds, including inline styles & pseudo elements */
+*::before,*::after{
+  background-image:none !important;
+  mask:none !important;
+  -webkit-mask:none !important;
+  content:unset !important;
+  opacity:1 !important;
+}
+*[style*="background-image"], *[style*="mask"], *[style*="-webkit-mask"]{
+  background-image:none !important;
+  mask:none !important;
+  -webkit-mask:none !important;
+}
+/* common classes used by BG ornaments */
+.bg-[url], [class*="bg-"][style*="url("], .watermark, .stars, .star, [class*="star"]{
+  background:none !important; display:none !important;
+}
+/* keep hero IMG safe (this only targets background images, not <img>) */
