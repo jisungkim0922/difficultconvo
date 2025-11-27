@@ -90,3 +90,14 @@ svg[fill="#e5e5e5"], svg[fill="#E5E5E5"] {
 article, [role="article"], .article, .post, .post-body {
   background: none !important;
 }
+
+/* —— remove watermark/grey stars globally —— */
+html, body, #__next, main, header, footer, [class*="container"], [class*="wrapper"], [class*="prose"] {
+  background-image: none !important;
+  -webkit-mask-image: none !important; mask-image: none !important;
+}
+[class*="star"], [class*="Stars"], [style*="star"], .bg-[url*="star"] { background: none !important; background-image: none !important; }
+*:before, *:after { background-image: none !important; -webkit-mask-image:none !important; mask-image:none !important; }
+svg[aria-hidden="true"][class*="star"], svg[class*="star"] { display:none !important; }
+/* article canvas */
+article, [role="article"], .article, .post, .post-body { background: none !important; }
