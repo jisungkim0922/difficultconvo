@@ -1,7 +1,25 @@
-/* kill star/watermark backgrounds anywhere */
+/* ----- hard-kill decorative star/sparkle/watermark ornaments sitewide ----- */
 [class*="star"], .bg-stars, .stars, .decor-stars, .watermark,
-.bg-[url*="star"], [style*="background-image"][style*="star"],
-svg[aria-hidden="true"][class*="star"], svg[class*="star"] {
+.bg-\[url\*="star"], [style*="background-image"][style*="star"],
+[class*="sparkle"], [class*="ornament"] {
   display: none !important;
+  background: none !important;
   background-image: none !important;
+}
+
+/* Kill big decorative SVGs (common for watermark ornaments) */
+svg.absolute, svg.fixed, [class*="prose"] > svg[aria-hidden="true"],
+[class*="prose"] svg[style*="position:absolute"], [class*="prose"] svg[style*="position: fixed"] {
+  display: none !important;
+}
+
+/* Nuke any element that sets a repeating background image via inline style */
+[style*="background-image"] {
+  background: none !important;
+  background-image: none !important;
+}
+
+/* Blog page specific: ensure a plain white canvas */
+main:where(.blog, [data-page="blog"]), body:where(.blog) {
+  background: #fff !important;
 }
