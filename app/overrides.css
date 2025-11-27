@@ -57,3 +57,36 @@ html, body, #__next, main, [class*="container"], [class*="wrapper"] {
   -webkit-mask: none !important;
   mask: none !important;
 }
+
+/* --- Final star/watermark kill switches --- */
+html, body, #__next, main, header, footer, [class*="container"], [class*="wrapper"], [class*="prose"] {
+  background-image: none !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/* Any class or inline style that mentions "star" */
+[class*="star"], [class*="Stars"], [style*="star"], .bg-[url*="star"] {
+  background: none !important;
+  background-image: none !important;
+}
+
+/* Pseudo elements often used for watermarks */
+*:before, *:after {
+  background-image: none !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/* Decorative SVG stars (hidden, low-opacity, aria-hidden, etc.) */
+svg[aria-hidden="true"][class*="star"],
+svg[class*="star"],
+svg[style*="opacity: 0.1"], svg[style*="opacity:0.1"],
+svg[fill="#e5e5e5"], svg[fill="#E5E5E5"] {
+  display: none !important;
+}
+
+/* Kill any repeating watermark on article canvas */
+article, [role="article"], .article, .post, .post-body {
+  background: none !important;
+}
