@@ -7,3 +7,8 @@ header .logo, .site-logo, [class*="logo"] { transform: scale(2); transform-origi
 /* Hide main nav links, keep hamburger */
 header nav a, header .menu, header .nav-links { display:none !important; }
 header button[aria-label*="menu"], header .hamburger { display:inline-flex !important; }
+
+/* BLOG_STARS_NUKE: as a backup, zero-out star backgrounds anywhere inside main */
+main [class*="star"], main .bg-stars, main [class*="sparkle"], main [class*="ornament"] {
+  display:none !important; background:none !important; background-image:none !important;
+}

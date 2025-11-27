@@ -1,44 +1,71 @@
-import "./article.css";
+"use client";
+
 import Link from "next/link";
+import "./article.css";
+import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
-export const dynamic = "force-dynamic";
+type Post = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  cover_url: string | null;
+  published_at: string | null; // user-chosen date
+  created_at: string;          // server default
+};
 
-function readTime(text: string) {
-  const words = (text || "").trim().split(/\s+/).filter(Boolean).length;
-  const mins = Math.max(1, Math.round(words / 200));
-  return `${mins} min read`;
-}
+export default function BlogIndex() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default async function BlogIndex() {
-  const { data } = await supabase
-    .from("posts")
-    .select("title, slug, cover_url, content, publish_date, created_at, author, published")
-    .order("publish_date", { ascending: false })
-    .order("created_at", { ascending: false });
-
-  const posts = (data || []).filter(p => p.published !== false);
+  useEffect(() => {
+    (async () => {
+      const { data, error } = await supabase
+        .from("posts")
+        .select("id, title, slug, excerpt, cover_url, published_at, created_at")
+        .order("published_at", { ascending: false, nullsFirst: false })
+        .order("created_at", { ascending: false });
+      if (!error && data) setPosts(data);
+      setLoading(false);
+    })();
+  }, []);
 
   return (
-    <main className="blog-list mx-auto max-w-6xl px-6 py-10">
-      <h1 className="sr-only">All Posts</h1>
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {posts.map(p => {
-          const dateISO = p.publish_date ?? p.created_at;
-          const dateText = dateISO ? new Date(dateISO as string).toLocaleDateString() : "";
-          const excerpt = (p.content || "").slice(0, 180).trim() + ((p.content || "").length > 180 ? "…" : "");
-          return (
-            <Link key={p.slug} href={`/blog/${encodeURIComponent(p.slug as string)}`} className="block rounded-xl border p-4 hover:shadow-md transition bg-white">
-              {p.cover_url ? <img src={p.cover_url as string} alt="" className="w-full h-44 object-cover rounded-lg mb-3" /> : null}
-              <h2 className="text-xl font-semibold mb-1">{p.title}</h2>
-              <div className="text-sm text-gray-500 mb-2">
-                {p.author ? `${p.author} · ` : ""}{dateText} · {readTime(p.content || "")}
-              </div>
-              <p className="text-[15px] leading-6 text-gray-700">{excerpt}</p>
-            </Link>
-          );
-        })}
+    <main className="blog-list mx-auto max-w-5xl px-6 py-10">
+      <div className="flex items-end justify-between gap-4 mb-8">
+        <h1 className="text-[clamp(2rem,4vw,2.75rem)] leading-tight font-serif">
+          Perspective Exchange
+        </h1>
+        <Link href="/blog/new" className="text-sm border rounded-lg px-3 py-2 hover:bg-black hover:text-white">
+          New Post
+        </Link>
       </div>
+
+      {loading ? (
+        <div>Loading…</div>
+      ) : posts.length === 0 ? (
+        <p>No posts yet.</p>
+      ) : (
+        <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map((p) => (
+            <li key={p.id} className="rounded-xl border overflow-hidden hover:shadow-md transition bg-white">
+              <Link href={`/blog/${p.slug}`} className="block">
+                {p.cover_url ? (
+                  <img src={p.cover_url} alt="" className="w-full h-44 object-cover" />
+                ) : null}
+                <div className="p-4">
+                  <h2 className="font-serif text-lg mb-1 line-clamp-2">{p.title}</h2>
+                  <p className="text-xs text-gray-500 mb-2">
+                    {(p.published_at ? new Date(p.published_at) : new Date(p.created_at)).toLocaleDateString()}
+                  </p>
+                  {p.excerpt ? <p className="text-sm text-gray-700 line-clamp-3">{p.excerpt}</p> : null}
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </main>
   );
 }
