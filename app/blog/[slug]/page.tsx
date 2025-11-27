@@ -1,26 +1,38 @@
+"use client";
+import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
-export const revalidate = 0;
-export const dynamic = "force-dynamic";
+type Post = {
+  title: string;
+  content: string | null;
+  cover_url: string | null;
+  publish_date: string | null;
+};
 
-export default async function PostPage({ params }: { params: { slug: string } }) {
-  const { data, error } = await supabase
-    .from("posts")
-    .select("title, content, cover_url, created_at, display_date")
-    .eq("slug", params.slug)
-    .maybeSingle();
+export default function PostPage({ params }: { params: { slug: string } }) {
+  const [post, setPost] = useState<Post | null>(null);
 
-  if (error) return <div className="mx-auto max-w-3xl px-6 py-12 text-red-600">{error.message}</div>;
-  if (!data) return <div className="mx-auto max-w-3xl px-6 py-12">Post not found.</div>;
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from("posts")
+        .select("title, content, cover_url, publish_date")
+        .eq("slug", params.slug)
+        .maybeSingle();
+      if (data) setPost(data as Post);
+    })();
+  }, [params.slug]);
+
+  if (!post) return <div className="mx-auto max-w-3xl px-6 py-12">Loading…</div>;
 
   return (
     <article className="mx-auto max-w-3xl px-6 py-12 prose">
-      <h1 className="font-serif">{data.title}</h1>
-      {data.cover_url ? <img src={data.cover_url} alt="" className="w-full h-auto rounded-xl" /> : null}
-      <p className="text-sm text-gray-500">
-        {new Date(data.display_date ?? data.created_at).toLocaleString()}
+      <h1>{post.title}</h1>
+      <p style={{marginTop:-12}} className="text-sm text-gray-500">
+        {post.publish_date ? new Date(post.publish_date).toLocaleString() : ""}
       </p>
-      <div style={{ whiteSpace: "pre-wrap" }}>{data.content}</div>
+      {post.cover_url ? <img src={post.cover_url} alt="" className="w-full h-auto rounded-xl" /> : null}
+      <div style={{ whiteSpace: "pre-wrap" }}>{post.content}</div>
     </article>
   );
 }

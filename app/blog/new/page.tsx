@@ -1,66 +1,73 @@
 "use client";
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 export default function NewPost() {
-  const r = useRouter();
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
-  const [publishDate, setPublishDate] = useState<string>(() => new Date().toISOString().slice(0,10));
+  const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
+  const [publishDate, setPublishDate] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
-  const [err, setErr] = useState<string | null>(null);
+  const router = useRouter();
+
+  async function uploadCover(): Promise<string | null> {
+    if (!file) return null;
+    const ext = file.name.split(".").pop() || "jpg";
+    const path = `covers/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const { error } = await supabase.storage.from("blog").upload(path, file, { upsert: false });
+    if (error) { alert(error.message); return null; }
+    const { data } = supabase.storage.from("blog").getPublicUrl(path);
+    return data.publicUrl ?? null;
+  }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSaving(true); setErr(null);
-    let cover_url: string | null = null;
+    setSaving(true);
+    const cover_url = await uploadCover();
 
-    try {
-      if (file) {
-        const ext = file.name.split(".").pop() || "jpg";
-        const key = `covers/${slug}.${ext}`;
-        const up = await supabase.storage.from("blog").upload(key, file, { upsert: true });
-        if (up.error) throw up.error;
-        const pub = supabase.storage.from("blog").getPublicUrl(key);
-        cover_url = pub.data.publicUrl;
-      }
-
-      const { error } = await supabase.from("posts").insert({
+    const { error } = await supabase
+      .from("posts")
+      .insert({
         title,
         slug,
+        excerpt,
         content,
-        excerpt: content.slice(0, 220),
         cover_url,
-        publish_date: new Date(publishDate).toISOString(),
-        published: true
+        publish_date: publishDate ? new Date(publishDate).toISOString() : new Date().toISOString(),
+        published: true,
       });
-      if (error) throw error;
-      r.push(`/blog/${slug}`);
-    } catch (e:any) {
-      setErr(e.message ?? String(e));
-      setSaving(false);
-    }
+
+    setSaving(false);
+    if (error) { alert(error.message); return; }
+    router.push("/blog");
   }
 
   return (
     <div className="mx-auto max-w-3xl px-6 py-12">
-      <h1 className="text-4xl font-bold mb-6">New Post</h1>
-      {err ? <p className="text-red-600 mb-4">{err}</p> : null}
-      <form onSubmit={onSubmit} className="space-y-4">
+      <h1 className="text-2xl font-semibold mb-4">New Post</h1>
+      <form className="space-y-4" onSubmit={onSubmit}>
         <input required placeholder="Title" className="w-full border rounded-lg px-3 py-2"
-               value={title} onChange={(e)=>setTitle(e.target.value)} />
+               value={title} onChange={(e) => setTitle(e.target.value)} />
         <input required placeholder="Slug (e.g., my-first-post)" className="w-full border rounded-lg px-3 py-2"
-               value={slug} onChange={(e)=>setSlug(e.target.value)} />
-        <input type="date" className="border rounded-lg px-3 py-2" value={publishDate}
-               onChange={(e)=>setPublishDate(e.target.value)} />
-        <textarea required placeholder="Write your post…" className="w-full border rounded-lg px-3 py-2 min-h-[260px]"
-                  value={content} onChange={(e)=>setContent(e.target.value)} />
-        <input type="file" accept="image/*" onChange={(e)=>setFile(e.target.files?.[0] ?? null)} />
+               value={slug} onChange={(e) => setSlug(e.target.value)} />
+        <textarea placeholder="Excerpt (1–2 lines)" className="w-full border rounded-lg px-3 py-2"
+               value={excerpt} onChange={(e) => setExcerpt(e.target.value)} />
+        <textarea required placeholder="Write your post…" className="w-full border rounded-lg px-3 py-2 min-h-[240px]"
+                  value={content} onChange={(e) => setContent(e.target.value)} />
+        <div className="grid gap-2 md:grid-cols-2">
+          <label className="text-sm text-gray-600">Upload date (orders cards)
+            <input type="datetime-local" className="w-full border rounded-lg px-3 py-2"
+                   value={publishDate} onChange={(e) => setPublishDate(e.target.value)} />
+          </label>
+          <label className="text-sm text-gray-600">Cover image
+            <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
+          </label>
+        </div>
         <button disabled={saving} className="px-4 py-2 rounded-lg border hover:bg-black hover:text-white transition disabled:opacity-60">
-          {saving ? "Saving…" : "Publish"}
+          {saving ? "Publishing…" : "Publish"}
         </button>
       </form>
     </div>
