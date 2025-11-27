@@ -50,3 +50,10 @@ article.prose { max-width: 720px; }
   background:none !important; display:none !important;
 }
 /* keep hero IMG safe (this only targets background images, not <img>) */
+
+/* Final nuke for watermark bg images and masks anywhere */
+html, body, #__next, main, [class*="container"], [class*="wrapper"] {
+  background-image: none !important;
+  -webkit-mask: none !important;
+  mask: none !important;
+}
