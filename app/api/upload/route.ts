@@ -1,20 +1,24 @@
-import { NextResponse } from "next/server";
-import { supabaseAdmin, SUPABASE_URL } from "@/lib/supabase";
+import { NextRequest, NextResponse } from "next/server";
+import { supabaseAdmin } from "@/lib/supabase";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const form = await req.formData();
   const file = form.get("file") as File | null;
-  if (!file) return NextResponse.json({ error: "No file" }, { status: 400 });
+  const key  = (form.get("key") as string | null) ?? `covers/${Date.now()}.jpg`;
 
-  const s = supabaseAdmin();
-  await s.storage.createBucket("images", { public: true }).catch(()=>{});
-  const ext = (file.name.split(".").pop() || "bin").toLowerCase();
-  const key = `images/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-  const { error } = await s.storage.from("images").upload(key, file, { upsert: true, contentType: file.type || undefined });
+  if (!file) return NextResponse.json({ error: "file missing" }, { status: 400 });
+
+  const arrayBuffer = await file.arrayBuffer();
+  const { error } = await supabaseAdmin
+    .storage
+    .from("blog")
+    .upload(key, Buffer.from(arrayBuffer), { upsert: true, contentType: file.type || "application/octet-stream" });
+
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  const url = `${SUPABASE_URL}/storage/v1/object/public/${key}`;
-  return NextResponse.json({ key, url }, { status: 201 });
+  const { data } = supabaseAdmin.storage.from("blog").getPublicUrl(key);
+  return NextResponse.json({ url: data.publicUrl, key });
 }
