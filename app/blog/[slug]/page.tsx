@@ -1,33 +1,26 @@
-"use client";
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
-type Post = { title:string; content:string; cover_url:string|null; created_at:string };
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
-export default function PostPage() {
-  const { slug } = useParams<{ slug:string }>();
-  const [post, setPost] = useState<Post | null>(null);
+export default async function PostPage({ params }: { params: { slug: string } }) {
+  const { data, error } = await supabase
+    .from("posts")
+    .select("title, content, cover_url, created_at, display_date")
+    .eq("slug", params.slug)
+    .maybeSingle();
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await supabase
-        .from("posts")
-        .select("title, content, cover_url, created_at")
-        .eq("slug", slug)
-        .maybeSingle();
-      setPost(data ?? null);
-    })();
-  }, [slug]);
-
-  if (!post) return <div className="mx-auto max-w-3xl px-6 py-12">Loading…</div>;
+  if (error) return <div className="mx-auto max-w-3xl px-6 py-12 text-red-600">{error.message}</div>;
+  if (!data) return <div className="mx-auto max-w-3xl px-6 py-12">Post not found.</div>;
 
   return (
     <article className="mx-auto max-w-3xl px-6 py-12 prose">
-      <h1>{post.title}</h1>
-      {post.cover_url ? <img src={post.cover_url} alt="" className="w-full h-auto rounded-xl" /> : null}
-      <p className="text-sm text-gray-500">{new Date(post.created_at).toLocaleString()}</p>
-      <div style={{ whiteSpace: "pre-wrap" }}>{post.content}</div>
+      <h1 className="font-serif">{data.title}</h1>
+      {data.cover_url ? <img src={data.cover_url} alt="" className="w-full h-auto rounded-xl" /> : null}
+      <p className="text-sm text-gray-500">
+        {new Date(data.display_date ?? data.created_at).toLocaleString()}
+      </p>
+      <div style={{ whiteSpace: "pre-wrap" }}>{data.content}</div>
     </article>
   );
 }

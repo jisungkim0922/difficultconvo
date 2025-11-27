@@ -1,35 +1,27 @@
+/* Times New Roman everywhere */
 :root, body { font-family: "Times New Roman", Times, serif !important; }
-header [class*="logo"], .site-logo { transform: scale(2.2); transform-origin: left center; }
-hr, .divider, [class*="border-t"], [class*="border-b"] { border: 0 !important; }
-[class*="star"], .bg-stars, .decor-stars, .watermark, .bg-[url*="star"] { display: none !important; }
-/* Nudge headline toward mic */
-main h1 { margin-right: -1.25rem !important; }
 
-/* Kill gray star ornaments and any starry bg images */
-[class*="star"], .bg-stars, .stars, .decor-stars, .watermark,
-[class*="bg-"][class*="star"], [style*="star"], [style*="stars"] {
-  display: none !important;
-  background: none !important;
-  background-image: none !important;
+/* LOGO: make it much bigger */
+header [class*="logo"], header .logo, .site-logo, [data-logo] {
+  display: inline-flex !important;
+  transform: scale(2.2) translateX(0) translateY(0);  /* increase if needed */
+  transform-origin: left top;
 }
+header [class*="logo"] img, header .logo img, .site-logo img, [data-logo] img,
+header [class*="logo"] svg, header .logo svg, .site-logo svg, [data-logo] svg { width: auto !important; height: auto !important; }
 
-/* Pull the big headline slightly toward the mic */
-main h1, section h1 { margin-right: -1.25rem !important; }
+/* Hide all nav items except hamburger */
+header nav a, header nav [role="menuitem"], header nav ul li { display: none !important; }
+header nav button[aria-label*="menu"], header .hamburger, .hamburger { display: inline-flex !important; }
 
-/* Make the tiny logo much bigger */
-header .logo, .site-logo, [class*="logo"], [data-logo] {
-  transform: scale(2.2); transform-origin: left center;
-}
-header .logo img, header .logo svg,
-.site-logo img, .site-logo svg { width: auto; height: auto; }
+/* Pull hero heading closer to microphone (nudge right side spacing) */
+main h1, section h1 { margin-right: -1.5rem !important; }
+main .grid { gap: 1rem !important; }
+main .grid > :first-child { padding-right: .5rem !important; }
 
-/* Keep only the hamburger */
-header nav a, header nav [role="navigation"] a:not([aria-label*="menu"]) { display:none !important; }
-header nav button[aria-label*="menu"], header .hamburger { display:inline-flex !important; }
+/* REMOVE GRAY STARS / WATERMARKS on all pages */
+[class*="star"], .stars, .bg-stars, .decor-stars, .watermark, [style*="star"], 
+.bg-[url*="star"], [class*="bg-star"], svg[class*="star"], svg[aria-hidden="true"][class*="star"] { display: none !important; }
 
-/* --- kill faint gray star watermarks anywhere --- */
-.bg-stars, .stars, .decor-stars, .watermark { display:none !important; }
-svg[class*="star"], svg[aria-hidden="true"][class*="star"] { display:none !important; }
-div[style*="star.svg"], div[style*="stars.svg"] { display:none !important; }
-.prose :where(svg) { display:none !important; } /* if stars are injected into prose */
-body, main, section { background-image:none !important; }
+/* Kill any section background image that draws stars */
+section, main, .prose { background-image: none !important; }
