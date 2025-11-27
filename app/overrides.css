@@ -1,27 +1,19 @@
-/* Times New Roman everywhere */
 :root, body { font-family: "Times New Roman", Times, serif !important; }
 
-/* LOGO: make it much bigger */
-header [class*="logo"], header .logo, .site-logo, [data-logo] {
-  display: inline-flex !important;
-  transform: scale(2.2) translateX(0) translateY(0);  /* increase if needed */
-  transform-origin: left top;
+/* logo 2.2x */
+header .logo, .site-logo, [class*="logo"] {
+  transform: scale(2.2);
+  transform-origin: left center;
 }
-header [class*="logo"] img, header .logo img, .site-logo img, [data-logo] img,
-header [class*="logo"] svg, header .logo svg, .site-logo svg, [data-logo] svg { width: auto !important; height: auto !important; }
 
-/* Hide all nav items except hamburger */
-header nav a, header nav [role="menuitem"], header nav ul li { display: none !important; }
-header nav button[aria-label*="menu"], header .hamburger, .hamburger { display: inline-flex !important; }
+/* keep only hamburger; hide text links */
+header nav a:not([aria-label*="menu"]):not(.hamburger) { display:none !important; }
 
-/* Pull hero heading closer to microphone (nudge right side spacing) */
-main h1, section h1 { margin-right: -1.5rem !important; }
-main .grid { gap: 1rem !important; }
-main .grid > :first-child { padding-right: .5rem !important; }
+/* hero: pull headline slightly right toward mic */
+main h1, section h1 { margin-right:-18px !important; }
 
-/* REMOVE GRAY STARS / WATERMARKS on all pages */
-[class*="star"], .stars, .bg-stars, .decor-stars, .watermark, [style*="star"], 
-.bg-[url*="star"], [class*="bg-star"], svg[class*="star"], svg[aria-hidden="true"][class*="star"] { display: none !important; }
-
-/* Kill any section background image that draws stars */
-section, main, .prose { background-image: none !important; }
+/* nuke grey “stars” / watermarks across the site and blog */
+[class*="star"], .bg-stars, .stars, .decor-stars, .watermark,
+[class*="bg-"][style*="star"], [style*="star.svg"],
+svg[class*="star"], svg[aria-hidden="true"][class*="star"] { display:none !important; }
+body, main, .prose { background-image:none !important; }
