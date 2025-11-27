@@ -1,18 +1,6 @@
 :root, body { font-family: "Times New Roman", Times, serif !important; }
-
-/* 2x logo */
-header .logo, .site-logo, [class*="logo"], [data-logo] {
-  transform: scale(2);
-  transform-origin: left center;
-}
-header .logo img, header .logo svg, .site-logo img, .site-logo svg,
-[class*="logo"] img, [class*="logo"] svg { height: auto !important; }
-
-/* Keep hamburger; hide other top nav links */
-header nav a:not(.hamburger):not([aria-label*="menu"]):not([aria-controls*="menu"]) { display: none !important; }
-header .hamburger, header [aria-label*="menu"], header .menu-toggle { display: inline-flex !important; }
-
-/* Remove gray dividers and decorative stars */
-hr, .prose hr, .section-divider, .divider, .border-t, .border-b { display: none !important; }
-.decorative-star, .stars, .bg-star, [data-decor="star"], [class*="star"] { display: none !important; }
-body [style*="star"], body [style*="stars"] { display: none !important; }
+header [class*="logo"], .site-logo { transform: scale(2.2); transform-origin: left center; }
+hr, .divider, [class*="border-t"], [class*="border-b"] { border: 0 !important; }
+[class*="star"], .bg-stars, .decor-stars, .watermark, .bg-[url*="star"] { display: none !important; }
+/* Nudge headline toward mic */
+main h1 { margin-right: -1.25rem !important; }
