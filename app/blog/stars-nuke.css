@@ -1,0 +1,48 @@
+/* Scope to blog only */
+.blog-root, .blog-root * { position: relative; }
+
+/* 2a) Kill background images, masks, filters, ornaments */
+.blog-root, .blog-root * , .blog-root *::before, .blog-root *::after {
+  background-image: none !important;
+  background: none !important;
+  -webkit-mask-image: none !important;
+          mask-image: none !important;
+  filter: none !important;
+}
+
+/* 2b) Nuke anything likely to be "stars/sparkles" by class or attribute */
+.blog-root [class*="star"], 
+.blog-root [class*="stars"], 
+.blog-root [class*="sparkle"],
+.blog-root [class*="ornament"],
+.blog-root .bg-stars,
+.blog-root .decor-stars,
+.blog-root .watermark,
+.blog-root [style*="star"],
+.blog-root [style*="stars"],
+.blog-root [style*="sparkle"] {
+  display: none !important;
+  background: none !important;
+  background-image: none !important;
+}
+
+/* 2c) Hide svg/icons that render stars/sparkles */
+.blog-root svg[aria-hidden="true"],
+.blog-root svg[class*="star"],
+.blog-root svg[class*="sparkle"],
+.blog-root svg:where(.absolute,.fixed,.inset-0) {
+  display: none !important;
+}
+
+/* 2d) Catch images named with star/sparkle */
+.blog-root img[src*="star"],
+.blog-root img[src*="sparkle"] {
+  display: none !important;
+}
+
+/* 2e) Safety: prevent Tailwind bg utilities from re-applying */
+.blog-root [class*="bg-"] { background: none !important; }
+
+/* 2f) Keep the actual article visuals intact */
+.blog-root .blog-article img.cover,
+.blog-root .blog-list img { display: block !important; }
