@@ -26,3 +26,10 @@ header .logo img, header .logo svg,
 /* Keep only the hamburger */
 header nav a, header nav [role="navigation"] a:not([aria-label*="menu"]) { display:none !important; }
 header nav button[aria-label*="menu"], header .hamburger { display:inline-flex !important; }
+
+/* --- kill faint gray star watermarks anywhere --- */
+.bg-stars, .stars, .decor-stars, .watermark { display:none !important; }
+svg[class*="star"], svg[aria-hidden="true"][class*="star"] { display:none !important; }
+div[style*="star.svg"], div[style*="stars.svg"] { display:none !important; }
+.prose :where(svg) { display:none !important; } /* if stars are injected into prose */
+body, main, section { background-image:none !important; }
