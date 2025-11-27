@@ -4,3 +4,25 @@ hr, .divider, [class*="border-t"], [class*="border-b"] { border: 0 !important; }
 [class*="star"], .bg-stars, .decor-stars, .watermark, .bg-[url*="star"] { display: none !important; }
 /* Nudge headline toward mic */
 main h1 { margin-right: -1.25rem !important; }
+
+/* Kill gray star ornaments and any starry bg images */
+[class*="star"], .bg-stars, .stars, .decor-stars, .watermark,
+[class*="bg-"][class*="star"], [style*="star"], [style*="stars"] {
+  display: none !important;
+  background: none !important;
+  background-image: none !important;
+}
+
+/* Pull the big headline slightly toward the mic */
+main h1, section h1 { margin-right: -1.25rem !important; }
+
+/* Make the tiny logo much bigger */
+header .logo, .site-logo, [class*="logo"], [data-logo] {
+  transform: scale(2.2); transform-origin: left center;
+}
+header .logo img, header .logo svg,
+.site-logo img, .site-logo svg { width: auto; height: auto; }
+
+/* Keep only the hamburger */
+header nav a, header nav [role="navigation"] a:not([aria-label*="menu"]) { display:none !important; }
+header nav button[aria-label*="menu"], header .hamburger { display:inline-flex !important; }
