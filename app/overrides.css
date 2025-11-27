@@ -1,25 +1,9 @@
-/* ----- hard-kill decorative star/sparkle/watermark ornaments sitewide ----- */
-[class*="star"], .bg-stars, .stars, .decor-stars, .watermark,
-.bg-\[url\*="star"], [style*="background-image"][style*="star"],
-[class*="sparkle"], [class*="ornament"] {
-  display: none !important;
-  background: none !important;
-  background-image: none !important;
-}
+/* sitewide small fixes (kept minimal) */
+:root, body { font-family: "Times New Roman", Times, serif !important; }
 
-/* Kill big decorative SVGs (common for watermark ornaments) */
-svg.absolute, svg.fixed, [class*="prose"] > svg[aria-hidden="true"],
-[class*="prose"] svg[style*="position:absolute"], [class*="prose"] svg[style*="position: fixed"] {
-  display: none !important;
-}
+/* Keep header logo big */
+header .logo, .site-logo, [class*="logo"] { transform: scale(2); transform-origin:left center; }
 
-/* Nuke any element that sets a repeating background image via inline style */
-[style*="background-image"] {
-  background: none !important;
-  background-image: none !important;
-}
-
-/* Blog page specific: ensure a plain white canvas */
-main:where(.blog, [data-page="blog"]), body:where(.blog) {
-  background: #fff !important;
-}
+/* Hide main nav links, keep hamburger */
+header nav a, header .menu, header .nav-links { display:none !important; }
+header button[aria-label*="menu"], header .hamburger { display:inline-flex !important; }

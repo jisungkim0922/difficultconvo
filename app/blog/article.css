@@ -1,0 +1,37 @@
+/* Scope all resets inside .blog-article/.blog-list so we don't break the rest of the site */
+.blog-article, .blog-list {
+  background: #ffffff !important;
+}
+
+/* Kill any decorative watermarks/stars/sparkles on blog pages */
+.blog-article *, .blog-article *::before, .blog-article *::after,
+.blog-list    *, .blog-list    *::before, .blog-list    *::after {
+  background-image: none !important;
+  -webkit-mask-image: none !important;
+          mask-image: none !important;
+}
+
+/* Nuke common ornament class names */
+.blog-article [class*="star"], .blog-list [class*="star"],
+.blog-article [class*="sparkle"], .blog-list [class*="sparkle"],
+.blog-article [class*="ornament"], .blog-list [class*="ornament"],
+.blog-article .bg-stars, .blog-list .bg-stars,
+.blog-article .decor-stars, .blog-list .decor-stars,
+.blog-article .watermark, .blog-list .watermark {
+  display: none !important;
+}
+
+/* Remove huge absolute/fixed SVGs (typical watermark) */
+.blog-article svg[aria-hidden="true"], .blog-list svg[aria-hidden="true"] { display:none !important; }
+.blog-article svg.absolute, .blog-article svg.fixed,
+.blog-list svg.absolute, .blog-list svg.fixed { display:none !important; }
+
+/* Plain, readable article typography */
+.blog-article .prose {
+  max-width: 70ch;
+  font-size: 1.125rem;
+  line-height: 1.8;
+}
+.blog-article h1 { font-size: clamp(2.2rem, 4vw, 3rem); line-height: 1.15; margin-bottom: .5rem; }
+.blog-article .byline { color:#6b7280; margin-bottom: 1.25rem; }
+.blog-article img.cover { width:100%; height:auto; border-radius: 0.75rem; margin: 1rem 0 1.5rem; }

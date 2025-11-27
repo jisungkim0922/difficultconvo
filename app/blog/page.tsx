@@ -1,33 +1,44 @@
+import "./article.css";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+
 export const dynamic = "force-dynamic";
 
-export default async function BlogList() {
-  const { data: posts, error } = await supabase
-    .from("posts")
-    .select("title, slug, excerpt, cover_url, publish_date")
-    .eq("published", true)
-    .order("publish_date", { ascending: false });
+function readTime(text: string) {
+  const words = (text || "").trim().split(/\s+/).filter(Boolean).length;
+  const mins = Math.max(1, Math.round(words / 200));
+  return `${mins} min read`;
+}
 
-  if (error) return <div className="px-6 py-12">{error.message}</div>;
-  if (!posts?.length) return <div className="px-6 py-12">No posts yet.</div>;
+export default async function BlogIndex() {
+  const { data } = await supabase
+    .from("posts")
+    .select("title, slug, cover_url, content, publish_date, created_at, author, published")
+    .order("publish_date", { ascending: false })
+    .order("created_at", { ascending: false });
+
+  const posts = (data || []).filter(p => p.published !== false);
 
   return (
-    <main className="mx-auto max-w-6xl px-6 py-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      {posts.map(p => (
-        <Link key={p.slug} href={`/blog/${p.slug}`} className="block rounded-xl overflow-hidden border hover:shadow-md transition">
-          {p.cover_url ? (
-            <img src={p.cover_url} alt="" className="h-48 w-full object-cover" />
-          ) : <div className="h-48 w-full bg-gray-100" />}
-          <div className="p-4">
-            <h3 className="text-lg font-semibold">{p.title}</h3>
-            <p className="text-sm text-gray-500">
-              {p.publish_date ? new Date(p.publish_date).toLocaleDateString() : ""}
-            </p>
-            {p.excerpt ? <p className="mt-2 line-clamp-3">{p.excerpt}</p> : null}
-          </div>
-        </Link>
-      ))}
+    <main className="blog-list mx-auto max-w-6xl px-6 py-10">
+      <h1 className="sr-only">All Posts</h1>
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {posts.map(p => {
+          const dateISO = p.publish_date ?? p.created_at;
+          const dateText = dateISO ? new Date(dateISO as string).toLocaleDateString() : "";
+          const excerpt = (p.content || "").slice(0, 180).trim() + ((p.content || "").length > 180 ? "…" : "");
+          return (
+            <Link key={p.slug} href={`/blog/${encodeURIComponent(p.slug as string)}`} className="block rounded-xl border p-4 hover:shadow-md transition bg-white">
+              {p.cover_url ? <img src={p.cover_url as string} alt="" className="w-full h-44 object-cover rounded-lg mb-3" /> : null}
+              <h2 className="text-xl font-semibold mb-1">{p.title}</h2>
+              <div className="text-sm text-gray-500 mb-2">
+                {p.author ? `${p.author} · ` : ""}{dateText} · {readTime(p.content || "")}
+              </div>
+              <p className="text-[15px] leading-6 text-gray-700">{excerpt}</p>
+            </Link>
+          );
+        })}
+      </div>
     </main>
   );
 }
